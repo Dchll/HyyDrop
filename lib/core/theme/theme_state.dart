@@ -28,7 +28,7 @@ class ThemeState extends _$ThemeState {
           .then((_) {
             appTalker.info('Theme mode persisted as ${mode.name}');
           })
-          .catchError((error, stack) {
+          .catchError((Object error, StackTrace stack) {
             appTalker.handle(error, stack, 'Failed to persist theme mode');
           }),
     );

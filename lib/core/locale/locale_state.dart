@@ -26,7 +26,7 @@ class AppLocaleNotifier extends Notifier<AppLocale> {
     unawaited(
       LocalePrefs.instance.setLocale(locale).then((_) {
         appTalker.info('App locale persisted as ${locale.storageValue}');
-      }).catchError((error, stack) {
+      }).catchError((Object error, StackTrace stack) {
         appTalker.handle(error, stack, 'Failed to persist app locale');
       }),
     );

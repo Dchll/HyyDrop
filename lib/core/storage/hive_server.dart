@@ -133,7 +133,7 @@ class HiveServer {
     _ensureInitialized();
 
     if (Hive.isBoxOpen(box.value)) {
-      await Hive.box(box.value).close();
+      await Hive.box<dynamic>(box.value).close();
     }
   }
 
