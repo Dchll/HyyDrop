@@ -4,7 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hyy_drop/core/network/chat/chat_provider.dart';
+import 'package:hyy_drop/core/network/discovery/discovery_provider.dart';
 import 'package:hyy_drop/core/router/app_router.dart';
+import 'package:hyy_drop/core/network/transfer/transfer_provider.dart';
 import 'package:hyy_drop/l10n/app_localizations.dart';
 
 import 'core/locale/app_locale.dart';
@@ -63,21 +66,37 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocale = ref.watch(appLocaleProvider);
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      themeMode: ref.watch(themeStateProvider),
-      locale: appLocale.locale,
-      supportedLocales: AppLocale.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      routerConfig: _appRouter.config(),
+    return _AppBootstrap(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+        themeMode: ref.watch(themeStateProvider),
+        locale: appLocale.locale,
+        supportedLocales: AppLocale.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        routerConfig: _appRouter.config(),
+      ),
     );
+  }
+}
+
+class _AppBootstrap extends ConsumerWidget {
+  const _AppBootstrap({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(chatHubProvider, (previous, next) {});
+    ref.listen(transferHubProvider, (previous, next) {});
+    ref.listen(discoveryHubProvider, (previous, next) {});
+    return child;
   }
 }

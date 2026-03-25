@@ -393,6 +393,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fuchsia'**
   String get platformFuchsia;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @devicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Devices'**
+  String get devicesTitle;
+
+  /// No description provided for @devicesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LAN chats, live peers, and transfer activity'**
+  String get devicesSubtitle;
+
+  /// No description provided for @onlineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'online'**
+  String get onlineLabel;
+
+  /// No description provided for @offlineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'offline'**
+  String get offlineLabel;
+
+  /// No description provided for @listeningPortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Port'**
+  String get listeningPortLabel;
+
+  /// No description provided for @inboxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get inboxLabel;
+
+  /// No description provided for @serverReadyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer server ready'**
+  String get serverReadyLabel;
+
+  /// No description provided for @serverStartingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer server starting...'**
+  String get serverStartingLabel;
+
+  /// No description provided for @emptyPeersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No nearby device has replied yet. Tap the radar button to probe again.'**
+  String get emptyPeersBody;
+
+  /// No description provided for @emptyChatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a device'**
+  String get emptyChatTitle;
+
+  /// No description provided for @emptyChatBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your nearby devices and recent transfer conversations will appear here.'**
+  String get emptyChatBody;
+
+  /// No description provided for @transferIdleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No transfer yet'**
+  String get transferIdleTitle;
+
+  /// No description provided for @transferIdleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This conversation is ready for file transfer. Send a file path to start the first task.'**
+  String get transferIdleBody;
+
+  /// No description provided for @chatIdleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the conversation'**
+  String get chatIdleTitle;
+
+  /// No description provided for @chatIdleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The TCP chat link will open when you enter this device conversation. Send a text or a file to begin.'**
+  String get chatIdleBody;
+
+  /// No description provided for @chatIdleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat idle'**
+  String get chatIdleLabel;
+
+  /// No description provided for @chatConnectingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat connecting'**
+  String get chatConnectingLabel;
+
+  /// No description provided for @chatConnectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat connected'**
+  String get chatConnectedLabel;
+
+  /// No description provided for @chatFailedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat failed'**
+  String get chatFailedLabel;
+
+  /// No description provided for @chatInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a quick message...'**
+  String get chatInputHint;
+
+  /// No description provided for @sendTextAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get sendTextAction;
+
+  /// No description provided for @messageSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Text message failed to send.'**
+  String get messageSendFailed;
+
+  /// No description provided for @sendFileAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send File'**
+  String get sendFileAction;
+
+  /// No description provided for @enterPathTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a file'**
+  String get enterPathTitle;
+
+  /// No description provided for @filePathLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Local file path'**
+  String get filePathLabel;
+
+  /// No description provided for @filePathHint.
+  ///
+  /// In en, this message translates to:
+  /// **'/Users/you/Desktop/demo.zip'**
+  String get filePathHint;
+
+  /// No description provided for @cancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelAction;
+
+  /// No description provided for @pathRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid local file path.'**
+  String get pathRequiredMessage;
+
+  /// No description provided for @sendQueuedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer task queued.'**
+  String get sendQueuedMessage;
+
+  /// No description provided for @statusQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Queued'**
+  String get statusQueued;
+
+  /// No description provided for @statusConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting'**
+  String get statusConnecting;
+
+  /// No description provided for @statusSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get statusSending;
+
+  /// No description provided for @statusReceiving.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving'**
+  String get statusReceiving;
+
+  /// No description provided for @statusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get statusDone;
+
+  /// No description provided for @statusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get statusFailed;
+
+  /// No description provided for @speedShortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get speedShortLabel;
+
+  /// No description provided for @etaShortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ETA'**
+  String get etaShortLabel;
 }
 
 class _AppLocalizationsDelegate

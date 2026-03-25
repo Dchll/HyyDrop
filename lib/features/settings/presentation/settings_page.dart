@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hyy_drop/core/info/device_info_provider.dart';
+import 'package:hyy_drop/core/info/package_info_provider.dart';
 import 'package:hyy_drop/core/locale/app_locale.dart';
 import 'package:hyy_drop/core/locale/locale_state.dart';
-import 'package:hyy_drop/core/logging/app_talker.dart';
 import 'package:hyy_drop/core/theme/app_theme_extension.dart';
 import 'package:hyy_drop/core/theme/theme_state.dart';
 import 'package:hyy_drop/l10n/app_localizations.dart';
@@ -13,61 +13,11 @@ import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 @RoutePage()
-class HomeShowcasePage extends ConsumerStatefulWidget {
-  const HomeShowcasePage({super.key});
-
-  @override
-  ConsumerState<HomeShowcasePage> createState() => _HomeShowcasePageState();
-}
-
-class _HomeShowcasePageState extends ConsumerState<HomeShowcasePage> {
-  late Future<_InfoSnapshot> _snapshotFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _snapshotFuture = _loadSnapshot();
-  }
-
-  Future<_InfoSnapshot> _loadSnapshot() async {
-    try {
-      final packageInfo = await PackageInfo.fromPlatform();
-      final deviceInfo = await DeviceInfoPlugin().deviceInfo;
-
-      final packageFieldCount = _packageFieldCount(packageInfo);
-      final deviceFieldCount = _countFlattenedEntries(deviceInfo.data);
-
-      appTalker.info(
-        'Loaded diagnostics: $packageFieldCount package fields, '
-        '$deviceFieldCount device fields',
-      );
-
-      return _InfoSnapshot(
-        packageInfo: packageInfo,
-        deviceData: Map<String, dynamic>.from(deviceInfo.data),
-        packageFieldCount: packageFieldCount,
-        deviceFieldCount: deviceFieldCount,
-        deviceTitle: _resolveDeviceTitle(deviceInfo),
-        isPhysicalDevice: _extractPhysicalDevice(deviceInfo.data),
-      );
-    } catch (error, stack) {
-      appTalker.handle(error, stack, 'Failed to load package/device info');
-      rethrow;
-    }
-  }
-
-  void _reload() {
-    setState(() {
-      _snapshotFuture = _loadSnapshot();
-    });
-  }
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeStateProvider);
-    final themeState = ref.read(themeStateProvider.notifier);
-    final appLocale = ref.watch(appLocaleProvider);
-    final localeState = ref.read(appLocaleProvider.notifier);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final appColors = context.appColors;
@@ -75,6 +25,7 @@ class _HomeShowcasePageState extends ConsumerState<HomeShowcasePage> {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -88,114 +39,7 @@ class _HomeShowcasePageState extends ConsumerState<HomeShowcasePage> {
             stops: const [0, 0.18, 1],
           ),
         ),
-        child: SafeArea(
-          child: FutureBuilder<_InfoSnapshot>(
-            future: _snapshotFuture,
-            builder: (context, snapshot) {
-              return CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 120),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        _Header(
-                          themeMode: themeMode,
-                          onThemeChanged: themeState.setMode,
-                          appLocale: appLocale,
-                          onLocaleChanged: localeState.setLocale,
-                          onRefresh: _reload,
-                        ),
-                        const SizedBox(height: 24),
-                        if (snapshot.connectionState != ConnectionState.done)
-                          _LoadingPanel(label: l10n.loadingDiagnostics)
-                        else if (snapshot.hasError)
-                          _ErrorPanel(
-                            title: l10n.unableLoadDiagnostics,
-                            message: snapshot.error.toString(),
-                            actionLabel: l10n.retry,
-                            onRetry: _reload,
-                          )
-                        else ...[
-                          _HeroInfoCard(
-                            snapshot: snapshot.requireData,
-                            platformLabel: _platformLabel(l10n),
-                            physicalLabel: snapshot.requireData.isPhysicalDevice
-                                ? l10n.yesLabel
-                                : l10n.noLabel,
-                            versionLabel:
-                                '${snapshot.requireData.packageInfo.version} '
-                                '(${snapshot.requireData.packageInfo.buildNumber})',
-                            packageTitle: l10n.packageInfoPlusTitle,
-                            subtitle: l10n.deviceInfoPlusSubtitle,
-                            versionShortLabel: l10n.versionShortLabel,
-                            deviceShortLabel: l10n.deviceShortLabel,
-                            physicalShortLabel: l10n.physicalShortLabel,
-                          ),
-                          const SizedBox(height: 26),
-                          _MetricsRow(
-                            packageFieldsLabel: l10n.packageMetricLabel,
-                            packageFieldsValue: l10n.fieldsCount(
-                              snapshot.requireData.packageFieldCount,
-                            ),
-                            deviceFieldsLabel: l10n.deviceMetricLabel,
-                            deviceFieldsValue: l10n.fieldsCount(
-                              snapshot.requireData.deviceFieldCount,
-                            ),
-                            localeLabel: l10n.languageMetricLabel,
-                            localeValue: appLocale.label(l10n),
-                          ),
-                          const SizedBox(height: 30),
-                          _SectionHeader(
-                            title: l10n.packageDetails,
-                            actionLabel: l10n.fieldsCount(
-                              snapshot.requireData.packageFieldCount,
-                            ),
-                            actionColor: colorScheme.onSurfaceVariant,
-                          ),
-                          const SizedBox(height: 16),
-                          _EntryCard(
-                            title: l10n.application,
-                            icon: Icons.apps_rounded,
-                            entries: _packageEntries(
-                              snapshot.requireData.packageInfo,
-                              l10n,
-                              Localizations.localeOf(context),
-                            ),
-                          ),
-                          const SizedBox(height: 28),
-                          _SectionHeader(
-                            title: l10n.deviceDetails,
-                            actionLabel: l10n.fieldsCount(
-                              snapshot.requireData.deviceFieldCount,
-                            ),
-                            actionColor: colorScheme.onSurfaceVariant,
-                          ),
-                          const SizedBox(height: 16),
-                          _EntryCard(
-                            title: snapshot.requireData.deviceTitle,
-                            icon: Icons.memory_rounded,
-                            entries: _flattenEntries(
-                              snapshot.requireData.deviceData,
-                              l10n,
-                              Localizations.localeOf(context),
-                            ),
-                          ),
-                        ],
-                      ]),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-      bottomNavigationBar: _BottomDock(
-        overviewLabel: l10n.overviewTab,
-        packageLabel: l10n.packageTab,
-        deviceLabel: l10n.deviceTab,
-        themeLabel: l10n.themeTab,
+        child: const SafeArea(child: _DiagnosticsBody()),
       ),
       floatingActionButton: Container(
         decoration: BoxDecoration(
@@ -209,35 +53,48 @@ class _HomeShowcasePageState extends ConsumerState<HomeShowcasePage> {
             ),
           ],
         ),
-        child: FloatingActionButton(
-          onPressed: _reload,
-          child: const Icon(Icons.refresh_rounded),
-        ),
+        child: const _RefreshDiagnosticsButton(),
       ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header({
-    required this.themeMode,
-    required this.onThemeChanged,
-    required this.appLocale,
-    required this.onLocaleChanged,
-    required this.onRefresh,
-  });
+class _DiagnosticsBody extends StatelessWidget {
+  const _DiagnosticsBody();
 
-  final ThemeMode themeMode;
-  final ValueChanged<ThemeMode> onThemeChanged;
-  final AppLocale appLocale;
-  final ValueChanged<AppLocale> onLocaleChanged;
-  final VoidCallback onRefresh;
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 120),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              const _Header(),
+              const SizedBox(height: 24),
+              const _HeroSection(),
+              const SizedBox(height: 26),
+              const _MetricsRow(),
+              const SizedBox(height: 30),
+              const _PackageSection(),
+              const SizedBox(height: 28),
+              const _DeviceSection(),
+            ]),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final appColors = context.appColors;
     final l10n = AppLocalizations.of(context)!;
 
     return Column(
@@ -267,35 +124,9 @@ class _Header extends StatelessWidget {
                 ],
               ),
             ),
-            Material(
+            const Material(
               color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(28),
-                onTap: onRefresh,
-                child: Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [appColors.heroStart, appColors.heroEnd],
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: appColors.transferGlow,
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.refresh_rounded,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-              ),
+              child: _RefreshDiagnosticsIconButton(),
             ),
           ],
         ),
@@ -308,27 +139,9 @@ class _Header extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        SingleChildScrollView(
+        const SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: SegmentedButton<ThemeMode>(
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(
-                value: ThemeMode.system,
-                label: Text(l10n.themeModeSystem),
-              ),
-              ButtonSegment(
-                value: ThemeMode.light,
-                label: Text(l10n.themeModeLight),
-              ),
-              ButtonSegment(
-                value: ThemeMode.dark,
-                label: Text(l10n.themeModeDark),
-              ),
-            ],
-            selected: {themeMode},
-            onSelectionChanged: (selection) => onThemeChanged(selection.first),
-          ),
+          child: _ThemeModeSelector(),
         ),
         const SizedBox(height: 16),
         Text(
@@ -339,30 +152,260 @@ class _Header extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        SingleChildScrollView(
+        const SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: SegmentedButton<AppLocale>(
-            showSelectedIcon: false,
-            segments: AppLocale.values
-                .map(
-                  (locale) => ButtonSegment<AppLocale>(
-                    value: locale,
-                    label: Text(locale.label(l10n)),
-                  ),
-                )
-                .toList(growable: false),
-            selected: {appLocale},
-            onSelectionChanged: (selection) => onLocaleChanged(selection.first),
-          ),
+          child: _LocaleSelector(),
         ),
       ],
     );
   }
 }
 
+class _RefreshDiagnosticsIconButton extends ConsumerWidget {
+  const _RefreshDiagnosticsIconButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = context.appColors;
+
+    void refreshAll() {
+      ref.invalidate(appPackageInfoProvider);
+      ref.invalidate(appDeviceInfoProvider);
+    }
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(28),
+      onTap: refreshAll,
+      child: Container(
+        width: 54,
+        height: 54,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [appColors.heroStart, appColors.heroEnd],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: appColors.transferGlow,
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        alignment: Alignment.center,
+        child: const Icon(Icons.refresh_rounded, color: Colors.white, size: 24),
+      ),
+    );
+  }
+}
+
+class _RefreshDiagnosticsButton extends ConsumerWidget {
+  const _RefreshDiagnosticsButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FloatingActionButton(
+      onPressed: () {
+        ref.invalidate(appPackageInfoProvider);
+        ref.invalidate(appDeviceInfoProvider);
+      },
+      child: const Icon(Icons.refresh_rounded),
+    );
+  }
+}
+
+class _ThemeModeSelector extends ConsumerWidget {
+  const _ThemeModeSelector();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final themeMode = ref.watch(themeStateProvider);
+
+    return SegmentedButton<ThemeMode>(
+      showSelectedIcon: false,
+      segments: [
+        ButtonSegment(
+          value: ThemeMode.system,
+          label: Text(l10n.themeModeSystem),
+        ),
+        ButtonSegment(value: ThemeMode.light, label: Text(l10n.themeModeLight)),
+        ButtonSegment(value: ThemeMode.dark, label: Text(l10n.themeModeDark)),
+      ],
+      selected: {themeMode},
+      onSelectionChanged: (selection) {
+        ref.read(themeStateProvider.notifier).setMode(selection.first);
+      },
+    );
+  }
+}
+
+class _LocaleSelector extends ConsumerWidget {
+  const _LocaleSelector();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final appLocale = ref.watch(appLocaleProvider);
+
+    return SegmentedButton<AppLocale>(
+      showSelectedIcon: false,
+      segments: AppLocale.values
+          .map(
+            (locale) => ButtonSegment<AppLocale>(
+              value: locale,
+              label: Text(locale.label(l10n)),
+            ),
+          )
+          .toList(growable: false),
+      selected: {appLocale},
+      onSelectionChanged: (selection) {
+        ref.read(appLocaleProvider.notifier).setLocale(selection.first);
+      },
+    );
+  }
+}
+
+class _HeroSection extends ConsumerWidget {
+  const _HeroSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final packageAsync = ref.watch(appPackageInfoProvider);
+    final deviceAsync = ref.watch(appDeviceInfoProvider);
+
+    if (packageAsync.isLoading || deviceAsync.isLoading) {
+      return _LoadingPanel(label: l10n.loadingDiagnostics);
+    }
+
+    final error = packageAsync.asError?.error ?? deviceAsync.asError?.error;
+    if (error != null) {
+      return _ErrorPanel(
+        title: l10n.unableLoadDiagnostics,
+        message: error.toString(),
+        actionLabel: l10n.retry,
+        onRetry: () {
+          ref.invalidate(appPackageInfoProvider);
+          ref.invalidate(appDeviceInfoProvider);
+        },
+      );
+    }
+
+    final package = packageAsync.asData?.value;
+    final device = deviceAsync.asData?.value;
+    if (package == null || device == null) {
+      return _ErrorPanel(
+        title: l10n.unableLoadDiagnostics,
+        message: l10n.unavailable,
+        actionLabel: l10n.retry,
+        onRetry: () {
+          ref.invalidate(appPackageInfoProvider);
+          ref.invalidate(appDeviceInfoProvider);
+        },
+      );
+    }
+
+    return _HeroInfoCard(
+      package: package,
+      device: device,
+      platformLabel: _platformLabel(l10n),
+      physicalLabel: device.isPhysicalDevice ? l10n.yesLabel : l10n.noLabel,
+      versionLabel:
+          '${package.packageInfo.version} (${package.packageInfo.buildNumber})',
+      packageTitle: l10n.packageInfoPlusTitle,
+      subtitle: l10n.deviceInfoPlusSubtitle,
+      versionShortLabel: l10n.versionShortLabel,
+      deviceShortLabel: l10n.deviceShortLabel,
+      physicalShortLabel: l10n.physicalShortLabel,
+    );
+  }
+}
+
+class _PackageSection extends ConsumerWidget {
+  const _PackageSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final packageAsync = ref.watch(appPackageInfoProvider);
+
+    return packageAsync.when(
+      loading: () => _LoadingPanel(label: l10n.loadingDiagnostics),
+      error: (error, _) => _ErrorPanel(
+        title: l10n.unableLoadDiagnostics,
+        message: error.toString(),
+        actionLabel: l10n.retry,
+        onRetry: () => ref.invalidate(appPackageInfoProvider),
+      ),
+      data: (snapshot) => Column(
+        children: [
+          _SectionHeader(
+            title: l10n.packageDetails,
+            actionLabel: l10n.fieldsCount(snapshot.fieldCount),
+            actionColor: colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 16),
+          _EntryCard(
+            title: l10n.application,
+            icon: Icons.apps_rounded,
+            entries: _packageEntries(
+              snapshot.packageInfo,
+              l10n,
+              Localizations.localeOf(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DeviceSection extends ConsumerWidget {
+  const _DeviceSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final deviceAsync = ref.watch(appDeviceInfoProvider);
+
+    return deviceAsync.when(
+      loading: () => _LoadingPanel(label: l10n.loadingDiagnostics),
+      error: (error, _) => _ErrorPanel(
+        title: l10n.unableLoadDiagnostics,
+        message: error.toString(),
+        actionLabel: l10n.retry,
+        onRetry: () => ref.invalidate(appDeviceInfoProvider),
+      ),
+      data: (snapshot) => Column(
+        children: [
+          _SectionHeader(
+            title: l10n.deviceDetails,
+            actionLabel: l10n.fieldsCount(snapshot.fieldCount),
+            actionColor: colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 16),
+          _EntryCard(
+            title: snapshot.deviceTitle,
+            icon: Icons.memory_rounded,
+            entries: _flattenEntries(
+              snapshot.deviceData,
+              l10n,
+              Localizations.localeOf(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _HeroInfoCard extends StatelessWidget {
   const _HeroInfoCard({
-    required this.snapshot,
+    required this.package,
+    required this.device,
     required this.platformLabel,
     required this.physicalLabel,
     required this.versionLabel,
@@ -373,7 +416,8 @@ class _HeroInfoCard extends StatelessWidget {
     required this.physicalShortLabel,
   });
 
-  final _InfoSnapshot snapshot;
+  final AppPackageInfoSnapshot package;
+  final AppDeviceInfoSnapshot device;
   final String platformLabel;
   final String physicalLabel;
   final String versionLabel;
@@ -472,7 +516,7 @@ class _HeroInfoCard extends StatelessWidget {
             ),
             const SizedBox(height: 26),
             Text(
-              snapshot.packageInfo.appName,
+              package.packageInfo.appName,
               style: theme.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w900,
@@ -481,7 +525,7 @@ class _HeroInfoCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              snapshot.packageInfo.packageName,
+              package.packageInfo.packageName,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: Colors.white.withValues(alpha: 0.86),
               ),
@@ -499,7 +543,7 @@ class _HeroInfoCard extends StatelessWidget {
                 Expanded(
                   child: _HeroStat(
                     label: deviceShortLabel,
-                    value: snapshot.deviceTitle,
+                    value: device.deviceTitle,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -564,51 +608,73 @@ class _HeroStat extends StatelessWidget {
 }
 
 class _MetricsRow extends StatelessWidget {
-  const _MetricsRow({
-    required this.packageFieldsLabel,
-    required this.packageFieldsValue,
-    required this.deviceFieldsLabel,
-    required this.deviceFieldsValue,
-    required this.localeLabel,
-    required this.localeValue,
-  });
-
-  final String packageFieldsLabel;
-  final String packageFieldsValue;
-  final String deviceFieldsLabel;
-  final String deviceFieldsValue;
-  final String localeLabel;
-  final String localeValue;
+  const _MetricsRow();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        Expanded(
-          child: _MetricCard(
-            icon: Icons.inventory_2_outlined,
-            label: packageFieldsLabel,
-            value: packageFieldsValue,
-          ),
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: _MetricCard(
-            icon: Icons.developer_board_rounded,
-            label: deviceFieldsLabel,
-            value: deviceFieldsValue,
-          ),
-        ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: _MetricCard(
-            icon: Icons.language_rounded,
-            label: localeLabel,
-            value: localeValue,
-            emphasized: true,
-          ),
-        ),
+        Expanded(child: _PackageMetricCard()),
+        SizedBox(width: 14),
+        Expanded(child: _DeviceMetricCard()),
+        SizedBox(width: 14),
+        Expanded(child: _LocaleMetricCard()),
       ],
+    );
+  }
+}
+
+class _PackageMetricCard extends ConsumerWidget {
+  const _PackageMetricCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final packageAsync = ref.watch(appPackageInfoProvider);
+
+    return _MetricCard(
+      icon: Icons.inventory_2_outlined,
+      label: l10n.packageMetricLabel,
+      value: packageAsync.maybeWhen(
+        data: (snapshot) => l10n.fieldsCount(snapshot.fieldCount),
+        orElse: () => l10n.loadingDiagnostics,
+      ),
+    );
+  }
+}
+
+class _DeviceMetricCard extends ConsumerWidget {
+  const _DeviceMetricCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final deviceAsync = ref.watch(appDeviceInfoProvider);
+
+    return _MetricCard(
+      icon: Icons.developer_board_rounded,
+      label: l10n.deviceMetricLabel,
+      value: deviceAsync.maybeWhen(
+        data: (snapshot) => l10n.fieldsCount(snapshot.fieldCount),
+        orElse: () => l10n.loadingDiagnostics,
+      ),
+    );
+  }
+}
+
+class _LocaleMetricCard extends ConsumerWidget {
+  const _LocaleMetricCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final locale = ref.watch(appLocaleProvider);
+
+    return _MetricCard(
+      icon: Icons.language_rounded,
+      label: l10n.languageMetricLabel,
+      value: locale.label(l10n),
+      emphasized: true,
     );
   }
 }
@@ -650,7 +716,7 @@ class _MetricCard extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelLarge?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -884,122 +950,6 @@ class _ErrorPanel extends StatelessWidget {
   }
 }
 
-class _BottomDock extends StatelessWidget {
-  const _BottomDock({
-    required this.overviewLabel,
-    required this.packageLabel,
-    required this.deviceLabel,
-    required this.themeLabel,
-  });
-
-  final String overviewLabel;
-  final String packageLabel;
-  final String deviceLabel;
-  final String themeLabel;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = context.appColors;
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 14),
-      decoration: BoxDecoration(
-        color: appColors.navBar,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: appColors.cardBorder),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _BottomItem(
-            icon: Icons.dashboard_rounded,
-            label: overviewLabel,
-            selected: true,
-            selectedColor: colorScheme.primary,
-          ),
-          _BottomItem(
-            icon: Icons.apps_outlined,
-            label: packageLabel,
-            selected: false,
-            selectedColor: colorScheme.primary,
-          ),
-          _BottomItem(
-            icon: Icons.memory_outlined,
-            label: deviceLabel,
-            selected: false,
-            selectedColor: colorScheme.primary,
-          ),
-          _BottomItem(
-            icon: Icons.palette_outlined,
-            label: themeLabel,
-            selected: false,
-            selectedColor: colorScheme.primary,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomItem extends StatelessWidget {
-  const _BottomItem({
-    required this.icon,
-    required this.label,
-    required this.selected,
-    required this.selectedColor,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool selected;
-  final Color selectedColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = context.appColors;
-
-    return SizedBox(
-      width: 70,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: selected ? selectedColor : appColors.iconMuted),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: selected ? selectedColor : appColors.iconMuted,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InfoSnapshot {
-  const _InfoSnapshot({
-    required this.packageInfo,
-    required this.deviceData,
-    required this.packageFieldCount,
-    required this.deviceFieldCount,
-    required this.deviceTitle,
-    required this.isPhysicalDevice,
-  });
-
-  final PackageInfo packageInfo;
-  final Map<String, dynamic> deviceData;
-  final int packageFieldCount;
-  final int deviceFieldCount;
-  final String deviceTitle;
-  final bool isPhysicalDevice;
-}
-
 List<MapEntry<String, String>> _packageEntries(
   PackageInfo info,
   AppLocalizations l10n,
@@ -1010,29 +960,23 @@ List<MapEntry<String, String>> _packageEntries(
     MapEntry(l10n.packageNameField, info.packageName),
     MapEntry(l10n.versionField, info.version),
     MapEntry(l10n.buildNumberField, info.buildNumber),
-    MapEntry(l10n.buildSignatureField, _displayValue(info.buildSignature, l10n)),
-    MapEntry(l10n.installerStoreField, _displayValue(info.installerStore, l10n)),
-    MapEntry(l10n.installTimeField, _formatDateTime(info.installTime, locale, l10n)),
-    MapEntry(l10n.updateTimeField, _formatDateTime(info.updateTime, locale, l10n)),
+    MapEntry(
+      l10n.buildSignatureField,
+      _displayValue(info.buildSignature, l10n),
+    ),
+    MapEntry(
+      l10n.installerStoreField,
+      _displayValue(info.installerStore, l10n),
+    ),
+    MapEntry(
+      l10n.installTimeField,
+      _formatDateTime(info.installTime, locale, l10n),
+    ),
+    MapEntry(
+      l10n.updateTimeField,
+      _formatDateTime(info.updateTime, locale, l10n),
+    ),
   ];
-}
-
-int _packageFieldCount(PackageInfo info) => 8;
-
-int _countFlattenedEntries(Map<String, dynamic> data) {
-  final sortedKeys = data.keys.toList()..sort();
-  var count = 0;
-
-  for (final key in sortedKeys) {
-    final value = data[key];
-    if (value is Map) {
-      count += _countFlattenedEntries(Map<String, dynamic>.from(value));
-    } else {
-      count++;
-    }
-  }
-
-  return count;
 }
 
 List<MapEntry<String, String>> _flattenEntries(
@@ -1070,10 +1014,7 @@ List<MapEntry<String, String>> _flattenEntries(
     }
 
     entries.add(
-      MapEntry(
-        _beautifyKey(composedKey),
-        _displayValue(value, l10n, locale),
-      ),
+      MapEntry(_beautifyKey(composedKey), _displayValue(value, l10n, locale)),
     );
   }
 
@@ -1118,11 +1059,7 @@ String _displayValue(
   return text.isEmpty ? l10n.unavailable : text;
 }
 
-String _formatDateTime(
-  DateTime? value,
-  Locale locale,
-  AppLocalizations l10n,
-) {
+String _formatDateTime(DateTime? value, Locale locale, AppLocalizations l10n) {
   if (value == null) {
     return l10n.unavailable;
   }
@@ -1144,32 +1081,4 @@ String _platformLabel(AppLocalizations l10n) {
     TargetPlatform.linux => l10n.platformLinux,
     TargetPlatform.fuchsia => l10n.platformFuchsia,
   };
-}
-
-String _resolveDeviceTitle(BaseDeviceInfo info) {
-  final data = info.data;
-
-  final candidates = [
-    data['name'],
-    data['model'],
-    data['computerName'],
-    data['prettyName'],
-    data['machine'],
-    data['hostName'],
-    data['brand'],
-    data['browserName'],
-  ];
-
-  for (final candidate in candidates) {
-    if (candidate is String && candidate.trim().isNotEmpty) {
-      return candidate.trim();
-    }
-  }
-
-  return 'Unknown';
-}
-
-bool _extractPhysicalDevice(Map<String, dynamic> data) {
-  final value = data['isPhysicalDevice'];
-  return value is bool ? value : true;
 }

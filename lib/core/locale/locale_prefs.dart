@@ -22,9 +22,9 @@ class LocalePrefs {
   AppLocale getLocale() {
     _ensureInitialized();
 
-    final stored = HiveServer.instance.box(HiveBox.settings).get(
-      HiveKey.locale.value,
-    );
+    final stored = HiveServer.instance
+        .box(HiveBox.settings)
+        .get(HiveKey.locale.value);
 
     if (stored is! String) {
       return AppLocale.system;

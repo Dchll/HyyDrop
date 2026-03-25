@@ -3,14 +3,8 @@ import 'package:hyy_drop/l10n/app_localizations.dart';
 
 enum AppLocale {
   system('system', null),
-  zhHans(
-    'zh_Hans',
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
-  ),
-  zhHant(
-    'zh_Hant',
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
-  ),
+  zhHans('zh_Hans', Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')),
+  zhHant('zh_Hant', Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')),
   en('en', Locale('en'));
 
   const AppLocale(this.storageValue, this.locale);

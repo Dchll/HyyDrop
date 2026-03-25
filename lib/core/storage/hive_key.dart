@@ -1,6 +1,7 @@
 import 'hive_box.dart';
 
 enum HiveKey {
+  localNodeId(HiveBox.settings, 'local_node_id'),
   themeMode(HiveBox.settings, 'theme_mode'),
   locale(HiveBox.settings, 'locale'),
   lastConnectedDeviceId(HiveBox.devices, 'last_connected_device_id'),

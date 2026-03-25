@@ -24,11 +24,14 @@ class AppLocaleNotifier extends Notifier<AppLocale> {
     state = locale;
     appTalker.info('App locale changed to ${locale.storageValue}');
     unawaited(
-      LocalePrefs.instance.setLocale(locale).then((_) {
-        appTalker.info('App locale persisted as ${locale.storageValue}');
-      }).catchError((Object error, StackTrace stack) {
-        appTalker.handle(error, stack, 'Failed to persist app locale');
-      }),
+      LocalePrefs.instance
+          .setLocale(locale)
+          .then((_) {
+            appTalker.info('App locale persisted as ${locale.storageValue}');
+          })
+          .catchError((Object error, StackTrace stack) {
+            appTalker.handle(error, stack, 'Failed to persist app locale');
+          }),
     );
   }
 }

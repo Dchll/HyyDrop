@@ -157,4 +157,122 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get platformFuchsia => 'Fuchsia';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get devicesTitle => 'Nearby Devices';
+
+  @override
+  String get devicesSubtitle => 'LAN chats, live peers, and transfer activity';
+
+  @override
+  String get onlineLabel => 'online';
+
+  @override
+  String get offlineLabel => 'offline';
+
+  @override
+  String get listeningPortLabel => 'Port';
+
+  @override
+  String get inboxLabel => 'Inbox';
+
+  @override
+  String get serverReadyLabel => 'Transfer server ready';
+
+  @override
+  String get serverStartingLabel => 'Transfer server starting...';
+
+  @override
+  String get emptyPeersBody =>
+      'No nearby device has replied yet. Tap the radar button to probe again.';
+
+  @override
+  String get emptyChatTitle => 'Choose a device';
+
+  @override
+  String get emptyChatBody =>
+      'Your nearby devices and recent transfer conversations will appear here.';
+
+  @override
+  String get transferIdleTitle => 'No transfer yet';
+
+  @override
+  String get transferIdleBody =>
+      'This conversation is ready for file transfer. Send a file path to start the first task.';
+
+  @override
+  String get chatIdleTitle => 'Start the conversation';
+
+  @override
+  String get chatIdleBody =>
+      'The TCP chat link will open when you enter this device conversation. Send a text or a file to begin.';
+
+  @override
+  String get chatIdleLabel => 'Chat idle';
+
+  @override
+  String get chatConnectingLabel => 'Chat connecting';
+
+  @override
+  String get chatConnectedLabel => 'Chat connected';
+
+  @override
+  String get chatFailedLabel => 'Chat failed';
+
+  @override
+  String get chatInputHint => 'Send a quick message...';
+
+  @override
+  String get sendTextAction => 'Send';
+
+  @override
+  String get messageSendFailed => 'Text message failed to send.';
+
+  @override
+  String get sendFileAction => 'Send File';
+
+  @override
+  String get enterPathTitle => 'Send a file';
+
+  @override
+  String get filePathLabel => 'Local file path';
+
+  @override
+  String get filePathHint => '/Users/you/Desktop/demo.zip';
+
+  @override
+  String get cancelAction => 'Cancel';
+
+  @override
+  String get pathRequiredMessage => 'Please enter a valid local file path.';
+
+  @override
+  String get sendQueuedMessage => 'Transfer task queued.';
+
+  @override
+  String get statusQueued => 'Queued';
+
+  @override
+  String get statusConnecting => 'Connecting';
+
+  @override
+  String get statusSending => 'Sending';
+
+  @override
+  String get statusReceiving => 'Receiving';
+
+  @override
+  String get statusDone => 'Done';
+
+  @override
+  String get statusFailed => 'Failed';
+
+  @override
+  String get speedShortLabel => 'Speed';
+
+  @override
+  String get etaShortLabel => 'ETA';
 }

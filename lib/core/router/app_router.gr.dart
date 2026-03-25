@@ -9,22 +9,40 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i2;
-import 'package:hyy_drop/features/home/presentation/home_showcase_page.dart'
+import 'package:auto_route/auto_route.dart' as _i3;
+import 'package:hyy_drop/features/devices/presentation/devices_page.dart'
     as _i1;
+import 'package:hyy_drop/features/settings/presentation/settings_page.dart'
+    as _i2;
 
 /// generated route for
-/// [_i1.HomeShowcasePage]
-class HomeShowcaseRoute extends _i2.PageRouteInfo<void> {
-  const HomeShowcaseRoute({List<_i2.PageRouteInfo>? children})
-    : super(HomeShowcaseRoute.name, initialChildren: children);
+/// [_i1.DevicesPage]
+class DevicesRoute extends _i3.PageRouteInfo<void> {
+  const DevicesRoute({List<_i3.PageRouteInfo>? children})
+    : super(DevicesRoute.name, initialChildren: children);
 
-  static const String name = 'HomeShowcaseRoute';
+  static const String name = 'DevicesRoute';
 
-  static _i2.PageInfo page = _i2.PageInfo(
+  static _i3.PageInfo page = _i3.PageInfo(
     name,
     builder: (data) {
-      return const _i1.HomeShowcasePage();
+      return const _i1.DevicesPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.SettingsPage]
+class SettingsRoute extends _i3.PageRouteInfo<void> {
+  const SettingsRoute({List<_i3.PageRouteInfo>? children})
+    : super(SettingsRoute.name, initialChildren: children);
+
+  static const String name = 'SettingsRoute';
+
+  static _i3.PageInfo page = _i3.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.SettingsPage();
     },
   );
 }
