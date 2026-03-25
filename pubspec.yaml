@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   # https://pub.dev/packages/cupertino_icons
   cupertino_icons: ^1.0.8
 
@@ -31,6 +34,21 @@ dependencies:
   # https://pub.dev/packages/hive
   hive: ^2.2.3
 
+  # https://pub.dev/packages/package_info_plus
+  package_info_plus: ^9.0.0
+
+  # https://pub.dev/packages/device_info_plus
+  device_info_plus: ^12.3.0
+
+  # https://pub.dev/packages/talker
+  talker: ^5.1.15
+
+  # https://pub.dev/packages/talker_riverpod_logger
+  talker_riverpod_logger: ^5.1.14
+
+  # https://pub.dev/packages/intl
+  intl: ^0.20.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,4 +66,5 @@ dev_dependencies:
   auto_route_generator: ^10.4.0
 
 flutter:
+  generate: true
   uses-material-design: true
