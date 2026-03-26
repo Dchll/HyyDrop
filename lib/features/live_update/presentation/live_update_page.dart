@@ -118,6 +118,8 @@ class _LiveUpdatePageState extends State<LiveUpdatePage> {
                       _buildTextField(
                         controller: _shortCriticalTextCtrl,
                         label: l10n.liveUpdateShortCriticalTextLabel,
+                        minLines: 3,
+                        maxLines: 5,
                       ),
                       const SizedBox(height: 18),
                       _RotationIntervalSlider(
@@ -159,6 +161,7 @@ class _LiveUpdatePageState extends State<LiveUpdatePage> {
     String? hint,
     String? Function(String?)? validator,
     TextInputType? keyboardType,
+    int? minLines,
     int maxLines = 1,
   }) {
     final theme = Theme.of(context);
@@ -185,6 +188,7 @@ class _LiveUpdatePageState extends State<LiveUpdatePage> {
         ),
       ),
       keyboardType: keyboardType,
+      minLines: minLines,
       maxLines: maxLines,
       validator: validator,
     );
