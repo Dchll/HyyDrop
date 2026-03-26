@@ -227,7 +227,7 @@ class _LiveUpdatePageState extends State<LiveUpdatePage> {
     final success = await TransferLiveUpdateBridge.instance
         .showCustomNotification(
           taskId: TransferLiveUpdateBridge.instance.manualLiveUpdateTaskId,
-          title: _titleCtrl.text.trim(),
+          title: _resolvedTitle(),
           body: _bodyCtrl.text.trim(),
           subText: _nullableText(_subTextCtrl),
           progress: _resolvedProgress(),
@@ -251,6 +251,19 @@ class _LiveUpdatePageState extends State<LiveUpdatePage> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(l10n.unableLoadDiagnostics)));
+  }
+
+  String _resolvedTitle() {
+    final title = _titleCtrl.text.trim();
+    if (title.isNotEmpty) {
+      return title;
+    }
+
+    return _shortCriticalTextCtrl.text
+        .split('\n')
+        .map((line) => line.trim())
+        .where((line) => line.isNotEmpty)
+        .join(' ');
   }
 
   int? _resolvedProgress() {
