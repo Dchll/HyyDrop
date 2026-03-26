@@ -162,6 +162,69 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTitle => 'Settings';
 
   @override
+  String get settingsExploreTitle => 'More';
+
+  @override
+  String get settingsExploreSubtitle => 'Open dedicated detail pages';
+
+  @override
+  String get settingsAboutTitle => 'About';
+
+  @override
+  String get settingsAboutSubtitle => 'Project and font information';
+
+  @override
+  String get settingsAboutBody =>
+      'This page records the app\'s visual and technical attribution used in the current build.';
+
+  @override
+  String get settingsAboutFontSectionTitle => 'Default Font';
+
+  @override
+  String get settingsAboutFontNotice =>
+      'This app uses MiSans VF from `assets/fonts/MiSans VF.ttf` as the global default font.';
+
+  @override
+  String get settingsAboutFontSample =>
+      'MiSans VF Sample: HyyDrop 传输体验 / Transfer Experience';
+
+  @override
+  String get packageInfoPageTitle => 'Package Info';
+
+  @override
+  String get packageInfoPageSubtitle =>
+      'Detailed package metadata for the current app build.';
+
+  @override
+  String get deviceInfoPageTitle => 'Device Info';
+
+  @override
+  String get deviceInfoPageSubtitle =>
+      'Detailed runtime device snapshot for this device.';
+
+  @override
+  String get homePageHeadline => 'Notifications & LAN Transfer';
+
+  @override
+  String get homePageSubtitle =>
+      'Jump into the notification composer or nearby device sessions from a home screen that now follows the same light card language.';
+
+  @override
+  String get dailySentenceTitle => 'Daily Sentence';
+
+  @override
+  String get dailySentenceHint => 'Tap the card to refresh it.';
+
+  @override
+  String get dailySentenceFallback => 'Nothing is available to show right now.';
+
+  @override
+  String get loadingLabel => 'Loading...';
+
+  @override
+  String get openDevicesAction => 'Open Device List';
+
+  @override
   String get devicesTitle => 'Nearby Devices';
 
   @override
@@ -275,4 +338,152 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get etaShortLabel => 'ETA';
+
+  @override
+  String get liveUpdateOpenComposerAction => 'Send Notification';
+
+  @override
+  String get liveUpdatePageTitle => 'Live Update Composer';
+
+  @override
+  String get liveUpdatePageSubtitle =>
+      'Customize the live update payload and send it straight to the Android notification bridge.';
+
+  @override
+  String get liveUpdateStyleSectionTitle => 'Notification Style';
+
+  @override
+  String get liveUpdateStyleBigText => 'BigTextStyle';
+
+  @override
+  String get liveUpdateStyleCall => 'CallStyle';
+
+  @override
+  String get liveUpdateStyleProgress => 'ProgressStyle';
+
+  @override
+  String get liveUpdateStyleMetric => 'MetricStyle';
+
+  @override
+  String get liveUpdateStyleBigTextHint =>
+      'Expanded text layout for longer title-and-body updates.';
+
+  @override
+  String get liveUpdateStyleCallHint =>
+      'Call-focused layout for incoming, ongoing, or screening call cards.';
+
+  @override
+  String get liveUpdateStyleProgressHint =>
+      'Progress bar layout. On unsupported Android versions it falls back automatically.';
+
+  @override
+  String get liveUpdateStyleMetricHint =>
+      'Metric card layout. On unsupported Android versions it falls back automatically.';
+
+  @override
+  String get liveUpdateTitleLabel => 'Title';
+
+  @override
+  String get liveUpdateBodyLabel => 'Body';
+
+  @override
+  String get liveUpdateSubTextLabel => 'Subtext';
+
+  @override
+  String get liveUpdateCallPersonLabel => 'Caller Name';
+
+  @override
+  String get liveUpdateCallBodyLabel => 'Call Note';
+
+  @override
+  String get liveUpdateCallVerificationLabel => 'Verification Text';
+
+  @override
+  String get liveUpdateCallTypeSectionTitle => 'Call Type';
+
+  @override
+  String get liveUpdateCallTypeIncoming => 'Incoming';
+
+  @override
+  String get liveUpdateCallTypeOngoing => 'Ongoing';
+
+  @override
+  String get liveUpdateCallTypeScreening => 'Screening';
+
+  @override
+  String get liveUpdateCallVideoLabel => 'Video Call';
+
+  @override
+  String get liveUpdateCallBodyFallback => 'Call in progress';
+
+  @override
+  String get liveUpdateMetricBodyLabel => 'Summary';
+
+  @override
+  String get liveUpdateMetricPrimaryTitle => 'Primary Metric';
+
+  @override
+  String get liveUpdateMetricSecondaryTitle => 'Secondary Metric';
+
+  @override
+  String get liveUpdateMetricTertiaryTitle => 'Tertiary Metric';
+
+  @override
+  String get liveUpdateMetricLabelField => 'Metric Label';
+
+  @override
+  String get liveUpdateMetricValueField => 'Metric Value';
+
+  @override
+  String get liveUpdateMetricBodyFallback => 'Metric update';
+
+  @override
+  String get liveUpdateMetricPairIncomplete =>
+      'Each optional metric needs both a label and a value.';
+
+  @override
+  String get liveUpdateShortCriticalTextLabel => 'Short Critical Text';
+
+  @override
+  String get liveUpdateProgressLabel => 'Progress';
+
+  @override
+  String get liveUpdateProgressHint => 'Enter an integer from 0 to 100';
+
+  @override
+  String liveUpdateFieldRequired(Object fieldLabel) {
+    return 'Please enter $fieldLabel.';
+  }
+
+  @override
+  String get liveUpdateProgressRequired => 'Please enter progress.';
+
+  @override
+  String get liveUpdateProgressInvalid =>
+      'Progress must be an integer from 0 to 100.';
+
+  @override
+  String get liveUpdateSendAction => 'Send Live Update';
+
+  @override
+  String get liveUpdateToastSuccess => 'Notification updated';
+
+  @override
+  String get liveUpdateShortTextRefreshLabel => 'Short Text Refresh Interval';
+
+  @override
+  String get liveUpdateShortTextRefreshHint =>
+      'Use the slider to set the short text rotation interval from 1 to 10 seconds.';
+
+  @override
+  String liveUpdateShortTextRefreshValue(Object seconds) {
+    return '${seconds}s';
+  }
+
+  @override
+  String get liveUpdateShortTextPreviewTitle => 'Short Text Preview';
+
+  @override
+  String get liveUpdateShortTextPreviewEmpty =>
+      'Enter short text to preview how it will be split and rotated.';
 }

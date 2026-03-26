@@ -400,6 +400,120 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
+  /// No description provided for @settingsExploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get settingsExploreTitle;
+
+  /// No description provided for @settingsExploreSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open dedicated detail pages'**
+  String get settingsExploreSubtitle;
+
+  /// No description provided for @settingsAboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAboutTitle;
+
+  /// No description provided for @settingsAboutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project and font information'**
+  String get settingsAboutSubtitle;
+
+  /// No description provided for @settingsAboutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This page records the app\'\'s visual and technical attribution used in the current build.'**
+  String get settingsAboutBody;
+
+  /// No description provided for @settingsAboutFontSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Font'**
+  String get settingsAboutFontSectionTitle;
+
+  /// No description provided for @settingsAboutFontNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This app uses MiSans VF from `assets/fonts/MiSans VF.ttf` as the global default font.'**
+  String get settingsAboutFontNotice;
+
+  /// No description provided for @settingsAboutFontSample.
+  ///
+  /// In en, this message translates to:
+  /// **'MiSans VF Sample: HyyDrop 传输体验 / Transfer Experience'**
+  String get settingsAboutFontSample;
+
+  /// No description provided for @packageInfoPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Package Info'**
+  String get packageInfoPageTitle;
+
+  /// No description provided for @packageInfoPageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed package metadata for the current app build.'**
+  String get packageInfoPageSubtitle;
+
+  /// No description provided for @deviceInfoPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Info'**
+  String get deviceInfoPageTitle;
+
+  /// No description provided for @deviceInfoPageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed runtime device snapshot for this device.'**
+  String get deviceInfoPageSubtitle;
+
+  /// No description provided for @homePageHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications & LAN Transfer'**
+  String get homePageHeadline;
+
+  /// No description provided for @homePageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump into the notification composer or nearby device sessions from a home screen that now follows the same light card language.'**
+  String get homePageSubtitle;
+
+  /// No description provided for @dailySentenceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Sentence'**
+  String get dailySentenceTitle;
+
+  /// No description provided for @dailySentenceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the card to refresh it.'**
+  String get dailySentenceHint;
+
+  /// No description provided for @dailySentenceFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is available to show right now.'**
+  String get dailySentenceFallback;
+
+  /// No description provided for @loadingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loadingLabel;
+
+  /// No description provided for @openDevicesAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Device List'**
+  String get openDevicesAction;
+
   /// No description provided for @devicesTitle.
   ///
   /// In en, this message translates to:
@@ -621,6 +735,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ETA'**
   String get etaShortLabel;
+
+  /// No description provided for @liveUpdateOpenComposerAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Notification'**
+  String get liveUpdateOpenComposerAction;
+
+  /// No description provided for @liveUpdatePageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Update Composer'**
+  String get liveUpdatePageTitle;
+
+  /// No description provided for @liveUpdatePageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize the live update payload and send it straight to the Android notification bridge.'**
+  String get liveUpdatePageSubtitle;
+
+  /// No description provided for @liveUpdateStyleSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Style'**
+  String get liveUpdateStyleSectionTitle;
+
+  /// No description provided for @liveUpdateStyleBigText.
+  ///
+  /// In en, this message translates to:
+  /// **'BigTextStyle'**
+  String get liveUpdateStyleBigText;
+
+  /// No description provided for @liveUpdateStyleCall.
+  ///
+  /// In en, this message translates to:
+  /// **'CallStyle'**
+  String get liveUpdateStyleCall;
+
+  /// No description provided for @liveUpdateStyleProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'ProgressStyle'**
+  String get liveUpdateStyleProgress;
+
+  /// No description provided for @liveUpdateStyleMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'MetricStyle'**
+  String get liveUpdateStyleMetric;
+
+  /// No description provided for @liveUpdateStyleBigTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded text layout for longer title-and-body updates.'**
+  String get liveUpdateStyleBigTextHint;
+
+  /// No description provided for @liveUpdateStyleCallHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Call-focused layout for incoming, ongoing, or screening call cards.'**
+  String get liveUpdateStyleCallHint;
+
+  /// No description provided for @liveUpdateStyleProgressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress bar layout. On unsupported Android versions it falls back automatically.'**
+  String get liveUpdateStyleProgressHint;
+
+  /// No description provided for @liveUpdateStyleMetricHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric card layout. On unsupported Android versions it falls back automatically.'**
+  String get liveUpdateStyleMetricHint;
+
+  /// No description provided for @liveUpdateTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get liveUpdateTitleLabel;
+
+  /// No description provided for @liveUpdateBodyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get liveUpdateBodyLabel;
+
+  /// No description provided for @liveUpdateSubTextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtext'**
+  String get liveUpdateSubTextLabel;
+
+  /// No description provided for @liveUpdateCallPersonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Caller Name'**
+  String get liveUpdateCallPersonLabel;
+
+  /// No description provided for @liveUpdateCallBodyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Note'**
+  String get liveUpdateCallBodyLabel;
+
+  /// No description provided for @liveUpdateCallVerificationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Text'**
+  String get liveUpdateCallVerificationLabel;
+
+  /// No description provided for @liveUpdateCallTypeSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Type'**
+  String get liveUpdateCallTypeSectionTitle;
+
+  /// No description provided for @liveUpdateCallTypeIncoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming'**
+  String get liveUpdateCallTypeIncoming;
+
+  /// No description provided for @liveUpdateCallTypeOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get liveUpdateCallTypeOngoing;
+
+  /// No description provided for @liveUpdateCallTypeScreening.
+  ///
+  /// In en, this message translates to:
+  /// **'Screening'**
+  String get liveUpdateCallTypeScreening;
+
+  /// No description provided for @liveUpdateCallVideoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Video Call'**
+  String get liveUpdateCallVideoLabel;
+
+  /// No description provided for @liveUpdateCallBodyFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Call in progress'**
+  String get liveUpdateCallBodyFallback;
+
+  /// No description provided for @liveUpdateMetricBodyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get liveUpdateMetricBodyLabel;
+
+  /// No description provided for @liveUpdateMetricPrimaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Metric'**
+  String get liveUpdateMetricPrimaryTitle;
+
+  /// No description provided for @liveUpdateMetricSecondaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Secondary Metric'**
+  String get liveUpdateMetricSecondaryTitle;
+
+  /// No description provided for @liveUpdateMetricTertiaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tertiary Metric'**
+  String get liveUpdateMetricTertiaryTitle;
+
+  /// No description provided for @liveUpdateMetricLabelField.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric Label'**
+  String get liveUpdateMetricLabelField;
+
+  /// No description provided for @liveUpdateMetricValueField.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric Value'**
+  String get liveUpdateMetricValueField;
+
+  /// No description provided for @liveUpdateMetricBodyFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric update'**
+  String get liveUpdateMetricBodyFallback;
+
+  /// No description provided for @liveUpdateMetricPairIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Each optional metric needs both a label and a value.'**
+  String get liveUpdateMetricPairIncomplete;
+
+  /// No description provided for @liveUpdateShortCriticalTextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Critical Text'**
+  String get liveUpdateShortCriticalTextLabel;
+
+  /// No description provided for @liveUpdateProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get liveUpdateProgressLabel;
+
+  /// No description provided for @liveUpdateProgressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an integer from 0 to 100'**
+  String get liveUpdateProgressHint;
+
+  /// No description provided for @liveUpdateFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter {fieldLabel}.'**
+  String liveUpdateFieldRequired(Object fieldLabel);
+
+  /// No description provided for @liveUpdateProgressRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter progress.'**
+  String get liveUpdateProgressRequired;
+
+  /// No description provided for @liveUpdateProgressInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress must be an integer from 0 to 100.'**
+  String get liveUpdateProgressInvalid;
+
+  /// No description provided for @liveUpdateSendAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Live Update'**
+  String get liveUpdateSendAction;
+
+  /// No description provided for @liveUpdateToastSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification updated'**
+  String get liveUpdateToastSuccess;
+
+  /// No description provided for @liveUpdateShortTextRefreshLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Text Refresh Interval'**
+  String get liveUpdateShortTextRefreshLabel;
+
+  /// No description provided for @liveUpdateShortTextRefreshHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the slider to set the short text rotation interval from 1 to 10 seconds.'**
+  String get liveUpdateShortTextRefreshHint;
+
+  /// No description provided for @liveUpdateShortTextRefreshValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds}s'**
+  String liveUpdateShortTextRefreshValue(Object seconds);
+
+  /// No description provided for @liveUpdateShortTextPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Text Preview'**
+  String get liveUpdateShortTextPreviewTitle;
+
+  /// No description provided for @liveUpdateShortTextPreviewEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter short text to preview how it will be split and rotated.'**
+  String get liveUpdateShortTextPreviewEmpty;
 }
 
 class _AppLocalizationsDelegate

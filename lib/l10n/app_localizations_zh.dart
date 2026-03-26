@@ -161,6 +161,65 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsTitle => '设置';
 
   @override
+  String get settingsExploreTitle => '更多页面';
+
+  @override
+  String get settingsExploreSubtitle => '打开独立详情页';
+
+  @override
+  String get settingsAboutTitle => '关于';
+
+  @override
+  String get settingsAboutSubtitle => '项目与字体信息';
+
+  @override
+  String get settingsAboutBody => '这里会标注当前构建中使用的界面和技术信息。';
+
+  @override
+  String get settingsAboutFontSectionTitle => '默认字体';
+
+  @override
+  String get settingsAboutFontNotice =>
+      '当前应用已将 `assets/fonts/MiSans VF.ttf` 中的 MiSans VF 设置为全局默认字体。';
+
+  @override
+  String get settingsAboutFontSample =>
+      'MiSans VF 示例：HyyDrop 传输体验 / Transfer Experience';
+
+  @override
+  String get packageInfoPageTitle => '包信息';
+
+  @override
+  String get packageInfoPageSubtitle => '查看当前应用构建的完整包元数据。';
+
+  @override
+  String get deviceInfoPageTitle => '设备信息';
+
+  @override
+  String get deviceInfoPageSubtitle => '查看当前设备的完整运行时快照。';
+
+  @override
+  String get homePageHeadline => '通知与局域网传输';
+
+  @override
+  String get homePageSubtitle => '从这里进入通知编辑器或设备会话，首页视觉与通知编辑器保持同一套浅色卡片语言。';
+
+  @override
+  String get dailySentenceTitle => '每日一句';
+
+  @override
+  String get dailySentenceHint => '轻点卡片即可刷新内容。';
+
+  @override
+  String get dailySentenceFallback => '暂时没有可展示的内容';
+
+  @override
+  String get loadingLabel => '加载中...';
+
+  @override
+  String get openDevicesAction => '打开设备列表';
+
+  @override
   String get devicesTitle => '附近设备';
 
   @override
@@ -270,6 +329,146 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get etaShortLabel => '剩余';
+
+  @override
+  String get liveUpdateOpenComposerAction => '发送通知';
+
+  @override
+  String get liveUpdatePageTitle => '通知编辑器';
+
+  @override
+  String get liveUpdatePageSubtitle =>
+      '自定义 Live Update 内容并直接发送到 Android 原生通知桥接层。';
+
+  @override
+  String get liveUpdateStyleSectionTitle => '通知样式';
+
+  @override
+  String get liveUpdateStyleBigText => 'BigTextStyle';
+
+  @override
+  String get liveUpdateStyleCall => 'CallStyle';
+
+  @override
+  String get liveUpdateStyleProgress => 'ProgressStyle';
+
+  @override
+  String get liveUpdateStyleMetric => 'MetricStyle';
+
+  @override
+  String get liveUpdateStyleBigTextHint => '适合长正文的展开文本通知。';
+
+  @override
+  String get liveUpdateStyleCallHint => '适合来电、通话中、筛查中的通话卡片样式。';
+
+  @override
+  String get liveUpdateStyleProgressHint => '进度条样式，不支持的 Android 版本会自动降级。';
+
+  @override
+  String get liveUpdateStyleMetricHint => '指标卡片样式，不支持的 Android 版本会自动降级。';
+
+  @override
+  String get liveUpdateTitleLabel => '标题';
+
+  @override
+  String get liveUpdateBodyLabel => '正文';
+
+  @override
+  String get liveUpdateSubTextLabel => '副标题';
+
+  @override
+  String get liveUpdateCallPersonLabel => '来电人';
+
+  @override
+  String get liveUpdateCallBodyLabel => '通话说明';
+
+  @override
+  String get liveUpdateCallVerificationLabel => '校验文本';
+
+  @override
+  String get liveUpdateCallTypeSectionTitle => '通话类型';
+
+  @override
+  String get liveUpdateCallTypeIncoming => '来电';
+
+  @override
+  String get liveUpdateCallTypeOngoing => '通话中';
+
+  @override
+  String get liveUpdateCallTypeScreening => '筛查中';
+
+  @override
+  String get liveUpdateCallVideoLabel => '视频通话';
+
+  @override
+  String get liveUpdateCallBodyFallback => '通话进行中';
+
+  @override
+  String get liveUpdateMetricBodyLabel => '摘要';
+
+  @override
+  String get liveUpdateMetricPrimaryTitle => '主指标';
+
+  @override
+  String get liveUpdateMetricSecondaryTitle => '次指标';
+
+  @override
+  String get liveUpdateMetricTertiaryTitle => '第三指标';
+
+  @override
+  String get liveUpdateMetricLabelField => '指标名称';
+
+  @override
+  String get liveUpdateMetricValueField => '指标值';
+
+  @override
+  String get liveUpdateMetricBodyFallback => '指标更新';
+
+  @override
+  String get liveUpdateMetricPairIncomplete => '可选指标必须同时填写名称和值。';
+
+  @override
+  String get liveUpdateShortCriticalTextLabel => '短文本';
+
+  @override
+  String get liveUpdateProgressLabel => '进度';
+
+  @override
+  String get liveUpdateProgressHint => '输入 0 到 100 的整数';
+
+  @override
+  String liveUpdateFieldRequired(Object fieldLabel) {
+    return '请输入$fieldLabel';
+  }
+
+  @override
+  String get liveUpdateProgressRequired => '请输入进度值';
+
+  @override
+  String get liveUpdateProgressInvalid => '进度必须是 0 到 100 的整数';
+
+  @override
+  String get liveUpdateSendAction => '发送 Live Update';
+
+  @override
+  String get liveUpdateToastSuccess => '通知已更新';
+
+  @override
+  String get liveUpdateShortTextRefreshLabel => '短文本刷新时间';
+
+  @override
+  String get liveUpdateShortTextRefreshHint => '通过滑动条设置短文本轮播间隔，范围 1 到 10 秒。';
+
+  @override
+  String liveUpdateShortTextRefreshValue(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
+  String get liveUpdateShortTextPreviewTitle => '短文本预览';
+
+  @override
+  String get liveUpdateShortTextPreviewEmpty => '输入短文本后，这里会预览它将如何被断句并轮换显示。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -429,6 +628,65 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
   String get settingsTitle => '设置';
 
   @override
+  String get settingsExploreTitle => '更多页面';
+
+  @override
+  String get settingsExploreSubtitle => '打开独立详情页';
+
+  @override
+  String get settingsAboutTitle => '关于';
+
+  @override
+  String get settingsAboutSubtitle => '项目与字体信息';
+
+  @override
+  String get settingsAboutBody => '这里会标注当前构建中使用的界面和技术信息。';
+
+  @override
+  String get settingsAboutFontSectionTitle => '默认字体';
+
+  @override
+  String get settingsAboutFontNotice =>
+      '当前应用已将 `assets/fonts/MiSans VF.ttf` 中的 MiSans VF 设置为全局默认字体。';
+
+  @override
+  String get settingsAboutFontSample =>
+      'MiSans VF 示例：HyyDrop 传输体验 / Transfer Experience';
+
+  @override
+  String get packageInfoPageTitle => '包信息';
+
+  @override
+  String get packageInfoPageSubtitle => '查看当前应用构建的完整包元数据。';
+
+  @override
+  String get deviceInfoPageTitle => '设备信息';
+
+  @override
+  String get deviceInfoPageSubtitle => '查看当前设备的完整运行时快照。';
+
+  @override
+  String get homePageHeadline => '通知与局域网传输';
+
+  @override
+  String get homePageSubtitle => '从这里进入通知编辑器或设备会话，首页视觉与通知编辑器保持同一套浅色卡片语言。';
+
+  @override
+  String get dailySentenceTitle => '每日一句';
+
+  @override
+  String get dailySentenceHint => '轻点卡片即可刷新内容。';
+
+  @override
+  String get dailySentenceFallback => '暂时没有可展示的内容';
+
+  @override
+  String get loadingLabel => '加载中...';
+
+  @override
+  String get openDevicesAction => '打开设备列表';
+
+  @override
   String get devicesTitle => '附近设备';
 
   @override
@@ -538,6 +796,146 @@ class AppLocalizationsZhHans extends AppLocalizationsZh {
 
   @override
   String get etaShortLabel => '剩余';
+
+  @override
+  String get liveUpdateOpenComposerAction => '发送通知';
+
+  @override
+  String get liveUpdatePageTitle => '通知编辑器';
+
+  @override
+  String get liveUpdatePageSubtitle =>
+      '自定义 Live Update 内容并直接发送到 Android 原生通知桥接层。';
+
+  @override
+  String get liveUpdateStyleSectionTitle => '通知样式';
+
+  @override
+  String get liveUpdateStyleBigText => 'BigTextStyle';
+
+  @override
+  String get liveUpdateStyleCall => 'CallStyle';
+
+  @override
+  String get liveUpdateStyleProgress => 'ProgressStyle';
+
+  @override
+  String get liveUpdateStyleMetric => 'MetricStyle';
+
+  @override
+  String get liveUpdateStyleBigTextHint => '适合长正文的展开文本通知。';
+
+  @override
+  String get liveUpdateStyleCallHint => '适合来电、通话中、筛查中的通话卡片样式。';
+
+  @override
+  String get liveUpdateStyleProgressHint => '进度条样式，不支持的 Android 版本会自动降级。';
+
+  @override
+  String get liveUpdateStyleMetricHint => '指标卡片样式，不支持的 Android 版本会自动降级。';
+
+  @override
+  String get liveUpdateTitleLabel => '标题';
+
+  @override
+  String get liveUpdateBodyLabel => '正文';
+
+  @override
+  String get liveUpdateSubTextLabel => '副标题';
+
+  @override
+  String get liveUpdateCallPersonLabel => '来电人';
+
+  @override
+  String get liveUpdateCallBodyLabel => '通话说明';
+
+  @override
+  String get liveUpdateCallVerificationLabel => '校验文本';
+
+  @override
+  String get liveUpdateCallTypeSectionTitle => '通话类型';
+
+  @override
+  String get liveUpdateCallTypeIncoming => '来电';
+
+  @override
+  String get liveUpdateCallTypeOngoing => '通话中';
+
+  @override
+  String get liveUpdateCallTypeScreening => '筛查中';
+
+  @override
+  String get liveUpdateCallVideoLabel => '视频通话';
+
+  @override
+  String get liveUpdateCallBodyFallback => '通话进行中';
+
+  @override
+  String get liveUpdateMetricBodyLabel => '摘要';
+
+  @override
+  String get liveUpdateMetricPrimaryTitle => '主指标';
+
+  @override
+  String get liveUpdateMetricSecondaryTitle => '次指标';
+
+  @override
+  String get liveUpdateMetricTertiaryTitle => '第三指标';
+
+  @override
+  String get liveUpdateMetricLabelField => '指标名称';
+
+  @override
+  String get liveUpdateMetricValueField => '指标值';
+
+  @override
+  String get liveUpdateMetricBodyFallback => '指标更新';
+
+  @override
+  String get liveUpdateMetricPairIncomplete => '可选指标必须同时填写名称和值。';
+
+  @override
+  String get liveUpdateShortCriticalTextLabel => '短文本';
+
+  @override
+  String get liveUpdateProgressLabel => '进度';
+
+  @override
+  String get liveUpdateProgressHint => '输入 0 到 100 的整数';
+
+  @override
+  String liveUpdateFieldRequired(Object fieldLabel) {
+    return '请输入$fieldLabel';
+  }
+
+  @override
+  String get liveUpdateProgressRequired => '请输入进度值';
+
+  @override
+  String get liveUpdateProgressInvalid => '进度必须是 0 到 100 的整数';
+
+  @override
+  String get liveUpdateSendAction => '发送 Live Update';
+
+  @override
+  String get liveUpdateToastSuccess => '通知已更新';
+
+  @override
+  String get liveUpdateShortTextRefreshLabel => '短文本刷新时间';
+
+  @override
+  String get liveUpdateShortTextRefreshHint => '通过滑动条设置短文本轮播间隔，范围 1 到 10 秒。';
+
+  @override
+  String liveUpdateShortTextRefreshValue(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
+  String get liveUpdateShortTextPreviewTitle => '短文本预览';
+
+  @override
+  String get liveUpdateShortTextPreviewEmpty => '输入短文本后，这里会预览它将如何被断句并轮换显示。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -697,6 +1095,65 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get settingsTitle => '設定';
 
   @override
+  String get settingsExploreTitle => '更多頁面';
+
+  @override
+  String get settingsExploreSubtitle => '打開獨立詳情頁';
+
+  @override
+  String get settingsAboutTitle => '關於';
+
+  @override
+  String get settingsAboutSubtitle => '專案與字體資訊';
+
+  @override
+  String get settingsAboutBody => '這裡會標示目前建置中使用的介面與技術資訊。';
+
+  @override
+  String get settingsAboutFontSectionTitle => '預設字體';
+
+  @override
+  String get settingsAboutFontNotice =>
+      '目前應用已將 `assets/fonts/MiSans VF.ttf` 中的 MiSans VF 設為全域預設字體。';
+
+  @override
+  String get settingsAboutFontSample =>
+      'MiSans VF 範例：HyyDrop 傳輸體驗 / Transfer Experience';
+
+  @override
+  String get packageInfoPageTitle => '套件資訊';
+
+  @override
+  String get packageInfoPageSubtitle => '查看目前應用建置的完整套件中繼資料。';
+
+  @override
+  String get deviceInfoPageTitle => '裝置資訊';
+
+  @override
+  String get deviceInfoPageSubtitle => '查看目前裝置的完整執行期快照。';
+
+  @override
+  String get homePageHeadline => '通知與區域網傳輸';
+
+  @override
+  String get homePageSubtitle => '從這裡進入通知編輯器或裝置會話，首頁視覺與通知編輯器保持同一套淺色卡片語言。';
+
+  @override
+  String get dailySentenceTitle => '每日一句';
+
+  @override
+  String get dailySentenceHint => '輕點卡片即可重新整理內容。';
+
+  @override
+  String get dailySentenceFallback => '暫時沒有可顯示的內容';
+
+  @override
+  String get loadingLabel => '載入中...';
+
+  @override
+  String get openDevicesAction => '打開裝置列表';
+
+  @override
   String get devicesTitle => '附近裝置';
 
   @override
@@ -806,4 +1263,144 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get etaShortLabel => '剩餘';
+
+  @override
+  String get liveUpdateOpenComposerAction => '發送通知';
+
+  @override
+  String get liveUpdatePageTitle => '通知編輯器';
+
+  @override
+  String get liveUpdatePageSubtitle =>
+      '自訂 Live Update 內容並直接送到 Android 原生通知橋接層。';
+
+  @override
+  String get liveUpdateStyleSectionTitle => '通知樣式';
+
+  @override
+  String get liveUpdateStyleBigText => 'BigTextStyle';
+
+  @override
+  String get liveUpdateStyleCall => 'CallStyle';
+
+  @override
+  String get liveUpdateStyleProgress => 'ProgressStyle';
+
+  @override
+  String get liveUpdateStyleMetric => 'MetricStyle';
+
+  @override
+  String get liveUpdateStyleBigTextHint => '適合長正文的展開文字通知。';
+
+  @override
+  String get liveUpdateStyleCallHint => '適合來電、通話中、篩查中的通話卡片樣式。';
+
+  @override
+  String get liveUpdateStyleProgressHint => '進度條樣式，不支援的 Android 版本會自動降級。';
+
+  @override
+  String get liveUpdateStyleMetricHint => '指標卡片樣式，不支援的 Android 版本會自動降級。';
+
+  @override
+  String get liveUpdateTitleLabel => '標題';
+
+  @override
+  String get liveUpdateBodyLabel => '正文';
+
+  @override
+  String get liveUpdateSubTextLabel => '副標題';
+
+  @override
+  String get liveUpdateCallPersonLabel => '來電人';
+
+  @override
+  String get liveUpdateCallBodyLabel => '通話說明';
+
+  @override
+  String get liveUpdateCallVerificationLabel => '校驗文字';
+
+  @override
+  String get liveUpdateCallTypeSectionTitle => '通話類型';
+
+  @override
+  String get liveUpdateCallTypeIncoming => '來電';
+
+  @override
+  String get liveUpdateCallTypeOngoing => '通話中';
+
+  @override
+  String get liveUpdateCallTypeScreening => '篩查中';
+
+  @override
+  String get liveUpdateCallVideoLabel => '視訊通話';
+
+  @override
+  String get liveUpdateCallBodyFallback => '通話進行中';
+
+  @override
+  String get liveUpdateMetricBodyLabel => '摘要';
+
+  @override
+  String get liveUpdateMetricPrimaryTitle => '主指標';
+
+  @override
+  String get liveUpdateMetricSecondaryTitle => '次指標';
+
+  @override
+  String get liveUpdateMetricTertiaryTitle => '第三指標';
+
+  @override
+  String get liveUpdateMetricLabelField => '指標名稱';
+
+  @override
+  String get liveUpdateMetricValueField => '指標值';
+
+  @override
+  String get liveUpdateMetricBodyFallback => '指標更新';
+
+  @override
+  String get liveUpdateMetricPairIncomplete => '可選指標必須同時填寫名稱和值。';
+
+  @override
+  String get liveUpdateShortCriticalTextLabel => '短文字';
+
+  @override
+  String get liveUpdateProgressLabel => '進度';
+
+  @override
+  String get liveUpdateProgressHint => '輸入 0 到 100 的整數';
+
+  @override
+  String liveUpdateFieldRequired(Object fieldLabel) {
+    return '請輸入$fieldLabel';
+  }
+
+  @override
+  String get liveUpdateProgressRequired => '請輸入進度值';
+
+  @override
+  String get liveUpdateProgressInvalid => '進度必須是 0 到 100 的整數';
+
+  @override
+  String get liveUpdateSendAction => '發送 Live Update';
+
+  @override
+  String get liveUpdateToastSuccess => '通知已更新';
+
+  @override
+  String get liveUpdateShortTextRefreshLabel => '短文字刷新時間';
+
+  @override
+  String get liveUpdateShortTextRefreshHint => '透過滑動條設定短文字輪播間隔，範圍 1 到 10 秒。';
+
+  @override
+  String liveUpdateShortTextRefreshValue(Object seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
+  String get liveUpdateShortTextPreviewTitle => '短文字預覽';
+
+  @override
+  String get liveUpdateShortTextPreviewEmpty => '輸入短文字後，這裡會預覽它將如何被斷句並輪換顯示。';
 }

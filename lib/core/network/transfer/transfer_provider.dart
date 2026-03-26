@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../common/lan_peer.dart';
 import '../common/net_retry.dart';
 import '../common/self_peer_provider.dart';
+import 'transfer_live_update.dart';
 import 'transfer_models.dart';
 import 'transfer_repo.dart';
 import 'transfer_service.dart';
@@ -16,6 +17,7 @@ part 'transfer_provider.g.dart';
 class TransferHub extends _$TransferHub {
   TransferRepo? _repo;
   StreamSubscription<TransferState>? _sub;
+  final _liveUpdate = TransferLiveUpdateBridge.instance;
 
   @override
   Future<TransferState> build() async {
@@ -26,11 +28,13 @@ class TransferHub extends _$TransferHub {
     ref.onDispose(() {
       unawaited(_sub?.cancel() ?? Future<void>.value());
       unawaited(repo.close());
+      unawaited(_liveUpdate.clear());
     });
 
     _sub = repo.stream.listen(
       (next) {
         state = AsyncData(next);
+        unawaited(_liveUpdate.syncState(next));
       },
       onError: (Object error, StackTrace stack) {
         appTalker.handle(error, stack, 'Transfer repo stream failed');
@@ -38,6 +42,7 @@ class TransferHub extends _$TransferHub {
     );
 
     await repo.start(self);
+    unawaited(_liveUpdate.syncState(repo.state));
     return repo.state;
   }
 
@@ -58,6 +63,7 @@ class TransferHub extends _$TransferHub {
     }
 
     await repo.close();
+    await _liveUpdate.clear();
     _repo = null;
     state = AsyncData(
       current.copyWith(serverStatus: TransferServerStatus.stopped),

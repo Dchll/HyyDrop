@@ -33,7 +33,7 @@ final class TransferHubProvider
   TransferHub create() => TransferHub();
 }
 
-String _$transferHubHash() => r'ab135346038e920a9c28c02fb893fdfac7d81bad';
+String _$transferHubHash() => r'5e23dab7bb76ef4dd1b04d7d43bd59cb3f7be74a';
 
 abstract class _$TransferHub extends $AsyncNotifier<TransferState> {
   FutureOr<TransferState> build();
