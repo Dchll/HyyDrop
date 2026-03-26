@@ -40,13 +40,10 @@ Future<void> main() async {
       };
 
       await HiveServer.instance.init();
-      appTalker.info('Hive initialized at ${HiveServer.instance.homePath}');
 
       await ThemePrefs.instance.init();
-      appTalker.info('Theme preferences initialized');
 
       await LocalePrefs.instance.init();
-      appTalker.info('Locale preferences initialized');
 
       runApp(ProviderScope(observers: [appRiverpodObserver], child: MyApp()));
       appTalker.info('Application started');

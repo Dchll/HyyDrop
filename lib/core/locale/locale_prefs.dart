@@ -1,3 +1,5 @@
+import 'package:hyy_drop/core/logging/app_talker.dart';
+
 import '../storage/hive_box.dart';
 import '../storage/hive_key.dart';
 import '../storage/hive_server.dart';
@@ -17,6 +19,7 @@ class LocalePrefs {
 
     await HiveServer.instance.openBox(HiveBox.settings);
     _initialized = true;
+    appTalker.info('Locale preferences initialized');
   }
 
   AppLocale getLocale() {

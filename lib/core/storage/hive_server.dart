@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
+import 'package:hyy_drop/core/logging/app_talker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'hive_box.dart';
@@ -43,6 +44,7 @@ class HiveServer {
 
     _homePath = hiveDirectory.path;
     _initialized = true;
+    appTalker.info('Hive initialized at ${HiveServer.instance.homePath}');
   }
 
   void registerAdapter<T>(TypeAdapter<T> adapter, {bool override = false}) {

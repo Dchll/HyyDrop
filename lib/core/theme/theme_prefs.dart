@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hyy_drop/core/logging/app_talker.dart';
 
 import '../storage/hive_box.dart';
 import '../storage/hive_key.dart';
@@ -18,6 +19,7 @@ class ThemePrefs {
 
     await HiveServer.instance.openBox(HiveBox.settings);
     _initialized = true;
+    appTalker.info('Theme preferences initialized');
   }
 
   ThemeMode getThemeMode() {
