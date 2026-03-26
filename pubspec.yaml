@@ -48,6 +48,7 @@ dependencies:
 
   # https://pub.dev/packages/intl
   intl: ^0.20.2
+  dio: ^5.9.2
 
 dev_dependencies:
   flutter_test:
@@ -68,3 +69,7 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  fonts:
+    - family: MiSans
+      fonts:
+        - asset: assets/fonts/MiSans VF.ttf

@@ -1,16 +1,15 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hyy_drop/core/info/device_info_provider.dart';
 import 'package:hyy_drop/core/info/package_info_provider.dart';
 import 'package:hyy_drop/core/locale/app_locale.dart';
+import 'package:hyy_drop/core/router/app_router.gr.dart';
 import 'package:hyy_drop/core/locale/locale_state.dart';
 import 'package:hyy_drop/core/theme/app_theme_extension.dart';
 import 'package:hyy_drop/core/theme/theme_state.dart';
 import 'package:hyy_drop/l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 @RoutePage()
 class SettingsPage extends StatelessWidget {
@@ -25,16 +24,22 @@ class SettingsPage extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
+      backgroundColor: isDark ? Colors.black : const Color(0xFFF7FBFF),
+      appBar: AppBar(
+        title: Text(l10n.settingsTitle),
+        backgroundColor: isDark ? Colors.black : const Color(0xFFF7FBFF),
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              isDark ? Colors.black : const Color(0xFFEAF6FF),
-              colorScheme.surface,
-              colorScheme.surface,
+              isDark ? Colors.black : const Color(0xFFE8F4FF),
+              isDark ? colorScheme.surface : const Color(0xFFF7FBFF),
+              isDark ? colorScheme.surface : const Color(0xFFF7FBFF),
             ],
             stops: const [0, 0.18, 1],
           ),
@@ -77,9 +82,7 @@ class _DiagnosticsBody extends StatelessWidget {
               const SizedBox(height: 26),
               const _MetricsRow(),
               const SizedBox(height: 30),
-              const _PackageSection(),
-              const SizedBox(height: 28),
-              const _DeviceSection(),
+              const _NavigationSection(),
             ]),
           ),
         ),
@@ -322,82 +325,43 @@ class _HeroSection extends ConsumerWidget {
   }
 }
 
-class _PackageSection extends ConsumerWidget {
-  const _PackageSection();
+class _NavigationSection extends StatelessWidget {
+  const _NavigationSection();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final packageAsync = ref.watch(appPackageInfoProvider);
 
-    return packageAsync.when(
-      loading: () => _LoadingPanel(label: l10n.loadingDiagnostics),
-      error: (error, _) => _ErrorPanel(
-        title: l10n.unableLoadDiagnostics,
-        message: error.toString(),
-        actionLabel: l10n.retry,
-        onRetry: () => ref.invalidate(appPackageInfoProvider),
-      ),
-      data: (snapshot) => Column(
-        children: [
-          _SectionHeader(
-            title: l10n.packageDetails,
-            actionLabel: l10n.fieldsCount(snapshot.fieldCount),
-            actionColor: colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(height: 16),
-          _EntryCard(
-            title: l10n.application,
-            icon: Icons.apps_rounded,
-            entries: _packageEntries(
-              snapshot.packageInfo,
-              l10n,
-              Localizations.localeOf(context),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DeviceSection extends ConsumerWidget {
-  const _DeviceSection();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final deviceAsync = ref.watch(appDeviceInfoProvider);
-
-    return deviceAsync.when(
-      loading: () => _LoadingPanel(label: l10n.loadingDiagnostics),
-      error: (error, _) => _ErrorPanel(
-        title: l10n.unableLoadDiagnostics,
-        message: error.toString(),
-        actionLabel: l10n.retry,
-        onRetry: () => ref.invalidate(appDeviceInfoProvider),
-      ),
-      data: (snapshot) => Column(
-        children: [
-          _SectionHeader(
-            title: l10n.deviceDetails,
-            actionLabel: l10n.fieldsCount(snapshot.fieldCount),
-            actionColor: colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(height: 16),
-          _EntryCard(
-            title: snapshot.deviceTitle,
-            icon: Icons.memory_rounded,
-            entries: _flattenEntries(
-              snapshot.deviceData,
-              l10n,
-              Localizations.localeOf(context),
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        _SectionHeader(
+          title: l10n.settingsExploreTitle,
+          actionLabel: l10n.settingsExploreSubtitle,
+          actionColor: colorScheme.onSurfaceVariant,
+        ),
+        const SizedBox(height: 16),
+        _SettingsDestinationCard(
+          icon: Icons.inventory_2_outlined,
+          title: l10n.packageInfoPageTitle,
+          subtitle: l10n.packageInfoPageSubtitle,
+          onTap: () => context.pushRoute(const SettingsPackageInfoRoute()),
+        ),
+        const SizedBox(height: 14),
+        _SettingsDestinationCard(
+          icon: Icons.developer_board_rounded,
+          title: l10n.deviceInfoPageTitle,
+          subtitle: l10n.deviceInfoPageSubtitle,
+          onTap: () => context.pushRoute(const SettingsDeviceInfoRoute()),
+        ),
+        const SizedBox(height: 14),
+        _SettingsDestinationCard(
+          icon: Icons.info_outline_rounded,
+          title: l10n.settingsAboutTitle,
+          subtitle: l10n.settingsAboutSubtitle,
+          onTap: () => context.pushRoute(const SettingsAboutRoute()),
+        ),
+      ],
     );
   }
 }
@@ -735,6 +699,81 @@ class _MetricCard extends StatelessWidget {
   }
 }
 
+class _SettingsDestinationCard extends StatelessWidget {
+  const _SettingsDestinationCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final appColors = context.appColors;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(28),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: appColors.panel,
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: appColors.cardBorder),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: appColors.panelStrong,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: colorScheme.primary),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
     required this.title,
@@ -765,107 +804,6 @@ class _SectionHeader extends StatelessWidget {
           style: theme.textTheme.titleMedium?.copyWith(
             color: actionColor,
             fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _EntryCard extends StatelessWidget {
-  const _EntryCard({
-    required this.title,
-    required this.icon,
-    required this.entries,
-  });
-
-  final String title;
-  final IconData icon;
-  final List<MapEntry<String, String>> entries;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final appColors = context.appColors;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: appColors.panel,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: appColors.cardBorder),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: appColors.panelStrong,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Icon(icon, color: colorScheme.primary),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            for (var i = 0; i < entries.length; i++) ...[
-              _EntryRow(entry: entries[i]),
-              if (i != entries.length - 1)
-                Divider(color: appColors.cardBorder, height: 18),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EntryRow extends StatelessWidget {
-  const _EntryRow({required this.entry});
-
-  final MapEntry<String, String> entry;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 4,
-          child: Text(
-            entry.key,
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          flex: 6,
-          child: Text(
-            entry.value,
-            textAlign: TextAlign.right,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
           ),
         ),
       ],
@@ -948,124 +886,6 @@ class _ErrorPanel extends StatelessWidget {
       ),
     );
   }
-}
-
-List<MapEntry<String, String>> _packageEntries(
-  PackageInfo info,
-  AppLocalizations l10n,
-  Locale locale,
-) {
-  return <MapEntry<String, String>>[
-    MapEntry(l10n.appNameField, info.appName),
-    MapEntry(l10n.packageNameField, info.packageName),
-    MapEntry(l10n.versionField, info.version),
-    MapEntry(l10n.buildNumberField, info.buildNumber),
-    MapEntry(
-      l10n.buildSignatureField,
-      _displayValue(info.buildSignature, l10n),
-    ),
-    MapEntry(
-      l10n.installerStoreField,
-      _displayValue(info.installerStore, l10n),
-    ),
-    MapEntry(
-      l10n.installTimeField,
-      _formatDateTime(info.installTime, locale, l10n),
-    ),
-    MapEntry(
-      l10n.updateTimeField,
-      _formatDateTime(info.updateTime, locale, l10n),
-    ),
-  ];
-}
-
-List<MapEntry<String, String>> _flattenEntries(
-  Map<String, dynamic> data,
-  AppLocalizations l10n,
-  Locale locale, [
-  String prefix = '',
-]) {
-  final entries = <MapEntry<String, String>>[];
-  final sortedKeys = data.keys.toList()..sort();
-
-  for (final key in sortedKeys) {
-    final value = data[key];
-    final composedKey = prefix.isEmpty ? key : '$prefix.$key';
-
-    if (value is Map) {
-      entries.addAll(
-        _flattenEntries(
-          Map<String, dynamic>.from(value),
-          l10n,
-          locale,
-          composedKey,
-        ),
-      );
-      continue;
-    }
-
-    if (value is Iterable) {
-      final values = value
-          .map((item) => _displayValue(item, l10n, locale))
-          .toList(growable: false)
-          .join(', ');
-      entries.add(MapEntry(_beautifyKey(composedKey), values));
-      continue;
-    }
-
-    entries.add(
-      MapEntry(_beautifyKey(composedKey), _displayValue(value, l10n, locale)),
-    );
-  }
-
-  return entries;
-}
-
-String _beautifyKey(String input) {
-  final normalized = input
-      .replaceAllMapped(RegExp(r'([a-z0-9])([A-Z])'), (m) => '${m[1]} ${m[2]}')
-      .replaceAll('.', ' / ')
-      .replaceAll('_', ' ');
-
-  return normalized
-      .split(' ')
-      .where((part) => part.isNotEmpty)
-      .map(
-        (part) => part.length <= 2 && !part.contains('/')
-            ? part.toUpperCase()
-            : '${part[0].toUpperCase()}${part.substring(1)}',
-      )
-      .join(' ');
-}
-
-String _displayValue(
-  Object? value,
-  AppLocalizations l10n, [
-  Locale locale = const Locale('en'),
-]) {
-  if (value == null) {
-    return l10n.unavailable;
-  }
-
-  if (value is DateTime) {
-    return _formatDateTime(value, locale, l10n);
-  }
-
-  if (value is bool) {
-    return value ? l10n.yesLabel : l10n.noLabel;
-  }
-
-  final text = value.toString().trim();
-  return text.isEmpty ? l10n.unavailable : text;
-}
-
-String _formatDateTime(DateTime? value, Locale locale, AppLocalizations l10n) {
-  if (value == null) {
-    return l10n.unavailable;
-  }
-
-  final localeTag = locale.toLanguageTag();
-  return DateFormat.yMd(localeTag).add_Hm().format(value.toLocal());
 }
 
 String _platformLabel(AppLocalizations l10n) {

@@ -12,6 +12,7 @@ import 'package:hyy_drop/core/network/discovery/discovery_provider.dart';
 import 'package:hyy_drop/core/network/transfer/transfer_models.dart';
 import 'package:hyy_drop/core/network/transfer/transfer_provider.dart';
 import 'package:hyy_drop/core/router/app_router.gr.dart';
+import 'package:hyy_drop/core/sentence/sentence.dart';
 import 'package:hyy_drop/core/theme/app_theme_extension.dart';
 import 'package:hyy_drop/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -45,107 +46,98 @@ class _DevicesPageState extends ConsumerState<DevicesPage> {
         final isWide = constraints.maxWidth >= 980;
         final activePeer = _resolveActivePeer(peers, isWide: isWide);
         _syncChatPeer(activePeer);
+        final isDark = theme.brightness == Brightness.dark;
 
         return Scaffold(
-          body: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  theme.brightness == Brightness.dark
-                      ? Colors.black
-                      : const Color(0xFFEAF5FF),
-                  theme.colorScheme.surface,
-                ],
-              ),
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: isWide
-                    ? Row(
-                        children: [
-                          SizedBox(
-                            width: 360,
-                            child: _PeerRail(
-                              peers: peers,
-                              selectedPeerId: activePeer?.id,
-                              discoveryAsync: discoveryAsync,
-                              transferAsync: transferAsync,
-                              onSelect: _selectPeer,
-                              onProbe: _probe,
-                              onSettings: _openSettings,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: _ChatStage(
-                              peer: activePeer,
-                              link: activePeer == null
-                                  ? null
-                                  : _linkFor(
-                                      chatAsync.asData?.value.links ?? const [],
-                                      activePeer.id,
-                                    ),
-                              messages: activePeer == null
-                                  ? const []
-                                  : _messagesFor(
-                                      chatAsync.asData?.value.messages ??
-                                          const [],
-                                      activePeer.id,
-                                    ),
-                              tasks: activePeer == null
-                                  ? const []
-                                  : _tasksFor(
-                                      transferAsync.asData?.value.tasks ??
-                                          const [],
-                                      activePeer.id,
-                                    ),
-                              chatAsync: chatAsync,
-                              transferAsync: transferAsync,
-                              onSend: activePeer == null
-                                  ? null
-                                  : () => _sendTo(activePeer),
-                              onSendText: activePeer == null
-                                  ? null
-                                  : (text) => _sendTextTo(activePeer, text),
-                            ),
-                          ),
-                        ],
-                      )
-                    : activePeer == null
-                    ? _PeerRail(
-                        peers: peers,
-                        selectedPeerId: null,
-                        discoveryAsync: discoveryAsync,
-                        transferAsync: transferAsync,
-                        onSelect: _selectPeer,
-                        onProbe: _probe,
-                        onSettings: _openSettings,
-                      )
-                    : _ChatStage(
-                        peer: activePeer,
-                        link: _linkFor(
-                          chatAsync.asData?.value.links ?? const [],
-                          activePeer.id,
+          backgroundColor: isDark
+              ? const Color(0xFF111B21)
+              : const Color(0xFFEDEDED),
+          body: SafeArea(
+            child: isWide
+                ? Row(
+                    children: [
+                      SizedBox(
+                        width: 350,
+                        child: _PeerRail(
+                          peers: peers,
+                          selectedPeerId: activePeer?.id,
+                          discoveryAsync: discoveryAsync,
+                          transferAsync: transferAsync,
+                          onSelect: _selectPeer,
+                          onProbe: _probe,
+                          onSettings: _openSettings,
                         ),
-                        messages: _messagesFor(
-                          chatAsync.asData?.value.messages ?? const [],
-                          activePeer.id,
-                        ),
-                        tasks: _tasksFor(
-                          transferAsync.asData?.value.tasks ?? const [],
-                          activePeer.id,
-                        ),
-                        chatAsync: chatAsync,
-                        transferAsync: transferAsync,
-                        onBack: _clearSelection,
-                        onSend: () => _sendTo(activePeer),
-                        onSendText: (text) => _sendTextTo(activePeer, text),
                       ),
-              ),
-            ),
+                      VerticalDivider(
+                        width: 1,
+                        thickness: 1,
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.08)
+                            : const Color(0xFFD8D8D8),
+                      ),
+                      Expanded(
+                        child: _ChatStage(
+                          peer: activePeer,
+                          link: activePeer == null
+                              ? null
+                              : _linkFor(
+                                  chatAsync.asData?.value.links ?? const [],
+                                  activePeer.id,
+                                ),
+                          messages: activePeer == null
+                              ? const []
+                              : _messagesFor(
+                                  chatAsync.asData?.value.messages ?? const [],
+                                  activePeer.id,
+                                ),
+                          tasks: activePeer == null
+                              ? const []
+                              : _tasksFor(
+                                  transferAsync.asData?.value.tasks ?? const [],
+                                  activePeer.id,
+                                ),
+                          chatAsync: chatAsync,
+                          transferAsync: transferAsync,
+                          onSend: activePeer == null
+                              ? null
+                              : () => _sendTo(activePeer),
+                          onSendText: activePeer == null
+                              ? null
+                              : (text) => _sendTextTo(activePeer, text),
+                        ),
+                      ),
+                    ],
+                  )
+                : activePeer == null
+                ? _PeerRail(
+                    peers: peers,
+                    selectedPeerId: null,
+                    discoveryAsync: discoveryAsync,
+                    transferAsync: transferAsync,
+                    onSelect: _selectPeer,
+                    onProbe: _probe,
+                    onSettings: _openSettings,
+                  )
+                : _ChatStage(
+                    peer: activePeer,
+                    link: _linkFor(
+                      chatAsync.asData?.value.links ?? const [],
+                      activePeer.id,
+                    ),
+                    messages: _messagesFor(
+                      chatAsync.asData?.value.messages ?? const [],
+                      activePeer.id,
+                    ),
+                    tasks: _tasksFor(
+                      transferAsync.asData?.value.tasks ?? const [],
+                      activePeer.id,
+                    ),
+                    chatAsync: chatAsync,
+                    transferAsync: transferAsync,
+                    onBack: _clearSelection,
+                    onSend: () => _sendTo(activePeer),
+                    onSendText: (text) => _sendTextTo(activePeer, text),
+                  ),
           ),
         );
       },
@@ -280,57 +272,56 @@ class _PeerRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appColors = context.appColors;
     final l10n = AppLocalizations.of(context)!;
     final transfer = transferAsync.asData?.value;
     final onlineCount = peers.where((peer) => peer.online).length;
+    final isDark = theme.brightness == Brightness.dark;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: appColors.panel,
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(color: appColors.cardBorder),
-      ),
+    return ColoredBox(
+      color: isDark ? const Color(0xFF202C33) : const Color(0xFFF7F7F7),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+          Container(
+            color: isDark ? const Color(0xFF2A3942) : const Color(0xFFF0F2F5),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
             child: Column(
               children: [
                 Row(
                   children: [
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            l10n.devicesTitle,
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            l10n.devicesSubtitle,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        l10n.devicesTitle,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
-                    IconButton.filledTonal(
+                    IconButton(
                       onPressed: onProbe,
                       icon: const Icon(Icons.radar_rounded),
                     ),
-                    const SizedBox(width: 8),
-                    IconButton.filledTonal(
+                    IconButton(
                       onPressed: onSettings,
                       icon: const Icon(Icons.settings_outlined),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.devicesSubtitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     _HeaderChip(
@@ -338,29 +329,30 @@ class _PeerRail extends StatelessWidget {
                       label: '$onlineCount ${l10n.onlineLabel}',
                     ),
                     const SizedBox(width: 8),
-                    _HeaderChip(
-                      icon: Icons.cable_rounded,
-                      label: transfer == null
-                          ? l10n.serverStartingLabel
-                          : '${l10n.listeningPortLabel} ${transfer.port}',
+                    Expanded(
+                      child: _HeaderChip(
+                        icon: Icons.cable_rounded,
+                        label: transfer == null
+                            ? l10n.serverStartingLabel
+                            : '${l10n.listeningPortLabel} ${transfer.port}',
+                      ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 14),
+                _WorkspacePanel(onSettings: onSettings),
                 if (transfer != null) ...[
                   const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${l10n.inboxLabel}: ${transfer.inboxPath}',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${l10n.inboxLabel}: ${transfer.inboxPath}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
-                    ],
+                    ),
                   ),
                 ],
                 if (discoveryAsync.hasError) ...[
@@ -378,9 +370,10 @@ class _PeerRail extends StatelessWidget {
             child: peers.isEmpty
                 ? _EmptyPeersCard(label: l10n.emptyPeersBody)
                 : ListView.separated(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.zero,
                     itemCount: peers.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 8),
+                    separatorBuilder: (_, _) =>
+                        Divider(height: 1, color: theme.dividerColor),
                     itemBuilder: (context, index) {
                       final peer = peers[index];
                       return _PeerTile(
@@ -390,6 +383,133 @@ class _PeerRail extends StatelessWidget {
                       );
                     },
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WorkspacePanel extends ConsumerWidget {
+  const _WorkspacePanel({required this.onSettings});
+
+  final Future<void> Function() onSettings;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final sentence = ref.watch(sentenceProvider);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: theme.brightness == Brightness.dark
+            ? const Color(0xFF182229)
+            : Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: theme.brightness == Brightness.dark
+              ? Colors.white.withValues(alpha: 0.05)
+              : const Color(0xFFE2E5E9),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.homePageHeadline,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.homePageSubtitle,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              if (Platform.isAndroid)
+                FilledButton.icon(
+                  onPressed: () {
+                    context.pushRoute(const LiveUpdateRoute());
+                  },
+                  icon: const Icon(Icons.notifications_active_rounded),
+                  label: Text(l10n.liveUpdateOpenComposerAction),
+                ),
+              OutlinedButton.icon(
+                onPressed: onSettings,
+                icon: const Icon(Icons.settings_outlined),
+                label: Text(l10n.settingsTitle),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: () => ref.refresh(sentenceProvider),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: theme.brightness == Brightness.dark
+                    ? const Color(0xFF202C33)
+                    : const Color(0xFFF7F9FB),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.dailySentenceTitle,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    l10n.dailySentenceHint,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  sentence.when(
+                    data: (data) => Text(
+                      (data?.trim().isNotEmpty ?? false)
+                          ? data!.trim()
+                          : l10n.dailySentenceFallback,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        height: 1.4,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    error: (error, stackTrace) => Text(
+                      l10n.dailySentenceFallback,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.error,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    loading: () => Text(
+                      l10n.loadingLabel,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -423,22 +543,21 @@ class _ChatStage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appColors = context.appColors;
     final l10n = AppLocalizations.of(context)!;
     final timeline = _timelineFor(messages, tasks);
+    final isDark = theme.brightness == Brightness.dark;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: appColors.panel,
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(color: appColors.cardBorder),
-      ),
+    return ColoredBox(
+      color: isDark ? const Color(0xFF0B141A) : const Color(0xFFE9E3D9),
       child: peer == null
           ? _EmptyChat(title: l10n.emptyChatTitle, body: l10n.emptyChatBody)
           : Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
+                Container(
+                  color: isDark
+                      ? const Color(0xFF202C33)
+                      : const Color(0xFFF0F2F5),
+                  padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
                   child: Row(
                     children: [
                       if (onBack != null)
@@ -454,34 +573,25 @@ class _ChatStage extends StatelessWidget {
                           children: [
                             Text(
                               peer!.name,
-                              style: theme.textTheme.titleLarge?.copyWith(
+                              style: theme.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              peer!.online
-                                  ? '${l10n.onlineLabel} · ${peer!.host}'
-                                  : '${l10n.offlineLabel} · ${peer!.host}',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              _chatStatusText(link?.status, l10n),
+                              '${_chatStatusText(link?.status, l10n)} · ${peer!.host}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.primary,
-                                fontWeight: FontWeight.w700,
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      FilledButton.icon(
+                      IconButton(
                         onPressed: onSend,
-                        icon: const Icon(Icons.send_rounded),
-                        label: Text(l10n.sendFileAction),
+                        icon: const Icon(Icons.attach_file_rounded),
                       ),
                     ],
                   ),
@@ -494,10 +604,10 @@ class _ChatStage extends StatelessWidget {
                           body: l10n.chatIdleBody,
                         )
                       : ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(18, 18, 18, 12),
+                          padding: const EdgeInsets.fromLTRB(14, 16, 14, 12),
                           itemCount: timeline.length,
                           separatorBuilder: (_, _) =>
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 10),
                           itemBuilder: (context, index) {
                             final item = timeline[index];
                             final outgoing = item.isOutgoing;
@@ -517,8 +627,11 @@ class _ChatStage extends StatelessWidget {
                         ),
                 ),
                 const Divider(height: 1),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 14, 18, 18),
+                Container(
+                  color: isDark
+                      ? const Color(0xFF202C33)
+                      : const Color(0xFFF0F2F5),
+                  padding: const EdgeInsets.fromLTRB(14, 10, 14, 14),
                   child: Column(
                     children: [
                       Row(
@@ -527,28 +640,22 @@ class _ChatStage extends StatelessWidget {
                             child: Text(
                               transferAsync.asData?.value == null
                                   ? l10n.serverStartingLabel
-                                  : '${l10n.serverReadyLabel} · ${transferAsync.asData!.value.port} · ${_chatStatusText(link?.status, l10n)}',
-                              style: theme.textTheme.bodyMedium?.copyWith(
+                                  : '${l10n.serverReadyLabel} · ${transferAsync.asData!.value.port}',
+                              style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          FilledButton.tonalIcon(
-                            onPressed: onSend,
-                            icon: const Icon(Icons.attach_file_rounded),
-                            label: Text(l10n.sendFileAction),
-                          ),
                         ],
                       ),
                       if (chatAsync.hasError) ...[
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 10),
                         _InlineBanner(
                           label: chatAsync.error.toString(),
                           tone: BannerTone.error,
                         ),
                       ],
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 10),
                       _ChatComposer(
                         enabled: onSendText != null,
                         hintText: l10n.chatInputHint,
@@ -581,9 +688,8 @@ class _TransferBubble extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 420),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: outgoing ? appColors.panelStrong : appColors.panelMuted,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: appColors.cardBorder),
+        color: outgoing ? const Color(0xFFDCF8C6) : Colors.white,
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,7 +767,6 @@ class _ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appColors = context.appColors;
     final outgoing = message.direction == ChatDirection.outgoing;
 
     return Container(
@@ -669,11 +774,8 @@ class _ChatBubble extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 420),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: outgoing ? theme.colorScheme.primary : appColors.panelMuted,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: outgoing ? theme.colorScheme.primary : appColors.cardBorder,
-        ),
+        color: outgoing ? const Color(0xFFDCF8C6) : Colors.white,
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -681,7 +783,7 @@ class _ChatBubble extends StatelessWidget {
           Text(
             message.text,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: outgoing ? theme.colorScheme.onPrimary : null,
+              color: theme.colorScheme.onSurface,
               height: 1.35,
             ),
           ),
@@ -689,9 +791,7 @@ class _ChatBubble extends StatelessWidget {
           Text(
             DateFormat.Hm().format(message.sentAt),
             style: theme.textTheme.labelSmall?.copyWith(
-              color: outgoing
-                  ? theme.colorScheme.onPrimary.withValues(alpha: 0.76)
-                  : theme.colorScheme.onSurfaceVariant,
+              color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -735,28 +835,45 @@ class _ChatComposerState extends State<_ChatComposer> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            controller: _controller,
-            enabled: widget.enabled && !_sending,
-            minLines: 1,
-            maxLines: 4,
-            textInputAction: TextInputAction.send,
-            onSubmitted: (_) => _submit(),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF2A3942) : Colors.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: TextField(
+              controller: _controller,
+              enabled: widget.enabled && !_sending,
+              minLines: 1,
+              maxLines: 4,
+              textInputAction: TextInputAction.send,
+              onSubmitted: (_) => _submit(),
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
               ),
             ),
           ),
         ),
         const SizedBox(width: 12),
         FilledButton(
+          style: FilledButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(14),
+            minimumSize: const Size(0, 0),
+          ),
           onPressed: widget.enabled && !_sending ? _submit : null,
-          child: Text(widget.sendLabel),
+          child: const Icon(Icons.send_rounded),
         ),
       ],
     );
@@ -800,19 +917,22 @@ class _PeerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final appColors = context.appColors;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.zero,
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         decoration: BoxDecoration(
-          color: selected ? appColors.panelStrong : appColors.panelMuted,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: selected ? colorScheme.primary : appColors.cardBorder,
+          color: selected
+              ? colorScheme.primary.withValues(alpha: 0.10)
+              : Colors.transparent,
+          border: Border(
+            left: BorderSide(
+              color: selected ? colorScheme.primary : Colors.transparent,
+              width: 3,
+            ),
           ),
         ),
         child: Row(
@@ -886,16 +1006,9 @@ class _PeerAvatar extends StatelessWidget {
 
     return Stack(
       children: [
-        Container(
-          width: 54,
-          height: 54,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              colors: [appColors.heroStart, appColors.heroEnd],
-            ),
-          ),
-          alignment: Alignment.center,
+        CircleAvatar(
+          radius: 27,
+          backgroundColor: appColors.heroStart,
           child: Text(
             seed,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -933,11 +1046,10 @@ class _HeaderChip extends StatelessWidget {
     final appColors = context.appColors;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: appColors.panelMuted,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: appColors.cardBorder),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -964,8 +1076,7 @@ class _InlineBanner extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: appColors.danger.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: appColors.danger.withValues(alpha: 0.28)),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Text(label),
     );
@@ -981,7 +1092,7 @@ class _EmptyPeersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(32),
         child: Text(
           label,
           textAlign: TextAlign.center,
@@ -1047,9 +1158,8 @@ class _SmallTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: appColors.panel,
+        color: appColors.panelMuted,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: appColors.cardBorder),
       ),
       child: Text(label, style: Theme.of(context).textTheme.labelSmall),
     );
@@ -1068,9 +1178,8 @@ class _StatusTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: appColors.panel,
+        color: appColors.panelMuted,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: appColors.cardBorder),
       ),
       child: Text(
         label,

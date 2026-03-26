@@ -30,6 +30,7 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
+      fontFamily: 'MiSans',
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: extension.navBar,
       textTheme: baseTextTheme.apply(
